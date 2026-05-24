@@ -431,6 +431,24 @@
 \enonce{Écrire un programme qui demande à l'utilisateur une série de nombres
 réels (arrêt sur 0) et affiche la somme des parties entières.}
 
+\begin{lstlisting}[caption={\texttt{TesterNbr.java} -- Somme des parties entières}]
+package TP1.ex1;
+import java.util.Scanner;
+
+public class TesterNbr {
+    public static void main(String[] args) {
+        int s = 0;
+        Scanner scan = new Scanner(System.in);
+        String line = scan.nextLine();
+        while (!line.equals("0")) {
+            s = s + Integer.parseInt(line);
+            line = scan.nextLine();
+        }
+        System.out.println(s);
+    }
+}
+\end{lstlisting}
+
 \screenshot{Screenshot 2026-05-03 155327.png}{Code Java -- Somme des parties entières et résultat d'exécution}
 
 \observation{La méthode \texttt{Integer.parseInt()} tronque la partie décimale
@@ -455,6 +473,24 @@ puis de caster en \texttt{int} pour obtenir la partie entière sans erreur.}
 \enonce{Afficher le carré des entiers de $-3$ à $+3$ en utilisant
 l'instruction \texttt{continue}.}
 
+\begin{lstlisting}[caption={\texttt{Carre.java} -- Affichage des carrés avec \texttt{continue}}]
+package TP1.ex2;
+
+public class Carre {
+    public static void main(String[] args) {
+        int n = -3;
+        while (n <= 3) {
+            if (n == 0) {
+                n++;
+                continue;
+            }
+            System.out.println(n * n);
+            n++;
+        }
+    }
+}
+\end{lstlisting}
+
 \screenshot{Screenshot 2026-05-03 160201.png}{Code Java -- Carrés avec \texttt{continue} et résultat d'exécution}
 
 \observation{L'instruction \texttt{continue} interrompt l'itération courante et
@@ -470,6 +506,18 @@ ici. L'exercice vise uniquement à pratiquer syntaxiquement le mot-clé
 
 \enonce{Afficher la racine carrée des entiers pairs de 0 à 10 inclus.}
 
+\begin{lstlisting}[caption={\texttt{Racine.java} -- Racines carrées des entiers pairs}]
+package TP1.ex3;
+
+public class Racine {
+    public static void main(String[] args) {
+        for (int i = 0; i <= 10; i += 2) {
+            System.out.println("la racine carre de " + i + " est: " + Math.sqrt(i));
+        }
+    }
+}
+\end{lstlisting}
+
 \screenshot{Screenshot 2026-05-03 160302.png}{Code Java -- Racines carrées des pairs et résultat d'exécution}
 
 \observation{L'incrémentation \texttt{i += 2} garantit de ne parcourir que les
@@ -482,6 +530,25 @@ résultats irrationnels comme $\sqrt{2} \approx 1{,}414$.}
 
 \enonce{Calculer la factorielle d'un entier saisi par l'utilisateur et
 afficher le résultat.}
+
+\begin{lstlisting}[caption={\texttt{Fact.java} -- Calcul de la factorielle}]
+package TP1.ex4;
+import java.util.Scanner;
+
+public class Fact {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Entrez un entier : ");
+        int nbr = Integer.parseInt(scan.nextLine());
+        if (nbr < 0)
+            System.exit(-1);
+        int result = 1;
+        for (int i = 1; i <= nbr; i++)
+            result *= i;
+        System.out.println(result);
+    }
+}
+\end{lstlisting}
 
 \screenshot{Screenshot 2026-05-03 160408.png}{Code Java -- Calcul de la factorielle et résultat d'exécution}
 
@@ -503,6 +570,38 @@ l'initialisation a été corrigée et le programme a fonctionné correctement.}
 \enonce{En utilisant l'instruction de choix multiples \texttt{switch}, écrire un
 programme qui initialise trois valeurs et calcule le résultat selon
 l'opérateur \texttt{(+, -, *)} saisi par l'utilisateur.}
+
+\begin{lstlisting}[caption={\texttt{Calcule.java} -- Calculatrice utilisant \texttt{switch} avec flèches}]
+package TP1.ex5;
+import java.util.Scanner;
+
+public class Calcule {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Entre a: ");
+        int a = Integer.parseInt(scan.nextLine());
+        System.out.println("Entre b: ");
+        int b = Integer.parseInt(scan.nextLine());
+        System.out.println("Entre c: ");
+        int c = Integer.parseInt(scan.nextLine());
+
+        System.out.println("Entre l'operateur: ");
+        String operator = scan.nextLine();
+
+        int result;
+        switch (operator) {
+            case "+" -> result = a + b + c;
+            case "-" -> result = a - b - c;
+            case "*" -> result = a * b * c;
+            default -> {
+                System.out.println("opreation n'est pas connais!");
+                return;
+            }
+        };
+        System.out.println("la resultat est : " + result);
+    }
+}
+\end{lstlisting}
 
 \screenshot{Screenshot 2026-05-03 160521.png}{Code Java -- Calculatrice avec \texttt{switch} et résultat d'exécution}
 
@@ -533,6 +632,72 @@ instances P1 et P2 dans un programme principal.}
 \screenshot{Screenshot 2026-05-03 160745.png}{Classe \texttt{Produit} -- méthodes \texttt{augmenter} et \texttt{diminuer}}
 \screenshot{Screenshot 2026-05-03 160756.png}{Programme principal -- création de P1, P2 et résultat d'exécution}
 
+\begin{lstlisting}[caption={\texttt{Produit.java} -- attributs, constructeurs et méthodes métier}]
+package TP1.ex6;
+
+public class Produit {
+    int code;
+    String intitule;
+    float prix;
+    String marque;
+
+    public Produit() {
+        code = 0;
+        intitule = "Default";
+        prix = 0;
+        marque = "Default";
+    }
+
+    public Produit(int code, float prix) {
+        this.code = code;
+        this.intitule = "Default";
+        this.prix = prix;
+        this.marque = "Default";
+    }
+
+    public float getPrix()    { return prix; }
+    public String getMarque() { return marque; }
+
+    public void afficher() {
+        System.out.println("Code: " + code);
+        System.out.println("Intitule: " + intitule);
+        System.out.println("Prix: " + getPrix());
+        System.out.println("Marque: " + getMarque());
+    }
+
+    public void augmenter(float m) {
+        if (m <= 0.05 * prix)
+            prix = prix + m;
+        else
+            System.out.println("Montant dépasse 5% du prix !");
+    }
+
+    public void diminuer(float n) {
+        if (prix > 1000)
+            prix = prix - (n / 100 * prix);
+        else
+            System.out.println("Prix doit être supérieur à 1000dh !");
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{TestProduit.java} -- création de P1, P2 et appels métier}]
+package TP1.ex6;
+
+public class TestProduit {
+    public static void main(String[] args) {
+        Produit p1 = new Produit(1, 30000);
+        Produit p2 = new Produit(2, 3500);
+
+        p1.augmenter(300);
+        p2.diminuer(3);
+
+        p1.afficher();
+        p2.afficher();
+    }
+}
+\end{lstlisting}
+
 \observation{La classe \texttt{Produit} illustre le principe
 d'\textbf{encapsulation} : les méthodes \texttt{augmenter} et \texttt{diminuer}
 contrôlent les modifications selon des règles métier précises -- augmentation
@@ -561,6 +726,32 @@ définition de méthodes statiques utilitaires.}
 remplacer \texttt{"FACULTE"} par \texttt{"UNIVERSITE"}, insérer
 \texttt{"ECOLE"} à la fin, ou afficher \textit{"Opération non reconnue"}.}
 
+\begin{lstlisting}[caption={\texttt{TexteOperation.java} -- traitement de texte avec \texttt{switch}}]
+package TP2.ex1;
+import java.util.Scanner;
+
+public class TexteOperation {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Entrer un texte : ");
+        String t = scan.nextLine();
+        System.out.println("Entrer un mot : ");
+        String a = scan.nextLine().toUpperCase();
+
+        switch (a) {
+            case "UNIVERSITE" -> t = t.replace("UNIVERSITE", "");
+            case "FACULTE"    -> t = t.replace("FACULTE", "UNIVERSITE");
+            case "ECOLE"      -> t = t + " ECOLE";
+            default           -> {
+                System.out.println("Opération non reconnue.");
+                return;
+            }
+        }
+        System.out.println(t);
+    }
+}
+\end{lstlisting}
+
 \screenshot{Screenshot 2026-05-03 161020.png}{Code -- Traitement de texte avec \texttt{switch} et résultat d'exécution}
 
 \observation{L'appel \texttt{toUpperCase()} sur la saisie \texttt{a} normalise
@@ -579,6 +770,33 @@ avant la comparaison dans le \texttt{switch}, le problème a été résolu de fa
 \enonce{Écrire une méthode statique \texttt{afficherTableau} prenant un
 tableau d'entiers en paramètre et affichant ses éléments. Dans
 \texttt{main}, demander la taille, saisir les valeurs, puis appeler la méthode.}
+
+\begin{lstlisting}[caption={\texttt{Tableau.java} -- méthode statique \texttt{afficherTableau} et saisie d'un tableau}]
+package TP2.ex2;
+import java.util.Scanner;
+
+public class Tableau {
+    static void afficherTableau(int[] tab) {
+        int N = tab.length;
+        for (int i = 0; i < N; i++) {
+            System.out.println("La valeur N" + i + " est: " + tab[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Entre la taille du tableau: ");
+        int N = Integer.parseInt(scan.nextLine());
+
+        int[] tab = new int[N];
+        for (int i = 0; i < N; i++) {
+            System.out.println("Entree la valeur N" + i);
+            tab[i] = Integer.parseInt(scan.nextLine());
+        }
+        afficherTableau(tab);
+    }
+}
+\end{lstlisting}
 
 \screenshot{Screenshot 2026-05-03 161122.png}{Code -- Saisie et affichage d'un tableau via méthode statique}
 
@@ -599,6 +817,90 @@ Dans \texttt{main}, saisir $n$ étudiants, calculer la moyenne via
 
 \screenshot{Screenshot 2026-05-03 161348.png}{Classe \texttt{Etudiant} -- définition, \texttt{toString} et \texttt{equals}}
 \screenshot{Screenshot 2026-05-03 161439.png}{Programme principal -- saisie, moyenne et comparaison d'étudiants}
+
+\begin{lstlisting}[caption={\texttt{Etudiant.java} -- classe avec \texttt{toString} et \texttt{equals}}]
+package TP2.ex3;
+
+public class Etudiant {
+    private int id;
+    private String nom;
+    private float note;
+
+    public Etudiant() {
+        id = 0; nom = "Default"; note = 0;
+    }
+    public Etudiant(int id, String nom, float note) {
+        this.id = id; this.nom = nom; this.note = note;
+    }
+
+    public int getId()      { return id; }
+    public String getNom()  { return nom; }
+    public float getNote()  { return note; }
+
+    public void setId(int id)        { this.id = id; }
+    public void setNom(String nom)   { this.nom = nom; }
+    public void setNote(float note)  { this.note = note; }
+
+    public String toString() {
+        return "id: " + id + ", nom: " + nom + ", note: " + note;
+    }
+
+    public boolean equals(Etudiant other) {
+        return this.id == other.id
+            && this.nom.equals(other.nom)
+            && this.note == other.note;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{TestEtudiant.java} -- saisie, moyenne et comparaison}]
+package TP2.ex3;
+import java.util.Scanner;
+
+public class TestEtudiant {
+    static float calculerMoyenne(Etudiant[] tab) {
+        float s = 0;
+        for (int i = 0; i < tab.length; i++)
+            s += tab[i].getNote();
+        return s / tab.length;
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Entree le nbr des etudiants: ");
+        int N = Integer.parseInt(scan.nextLine());
+
+        Etudiant[] tab = new Etudiant[N];
+        for (int i = 0; i < N; i++) {
+            tab[i] = new Etudiant();
+            System.out.println("Entre l'id d'etudiant " + i);
+            tab[i].setId(Integer.parseInt(scan.nextLine()));
+            System.out.println("Entree le nom d'etudiant " + i);
+            tab[i].setNom(scan.nextLine());
+            System.out.println("Entree la note d'etudiant " + i);
+            tab[i].setNote(Float.parseFloat(scan.nextLine()));
+        }
+
+        System.out.println("Les etudiants:");
+        for (int i = 0; i < N; i++)
+            System.out.println(tab[i].toString());
+
+        System.out.println("La moyenne des notes: " + calculerMoyenne(tab));
+
+        System.out.println("Entre deux indices i et j :");
+        int i = Integer.parseInt(scan.nextLine());
+        int j = Integer.parseInt(scan.nextLine());
+
+        if (i >= 0 && j >= 0 && i < N && j < N) {
+            if (tab[i].equals(tab[j]))
+                System.out.println("Les deux etudiants sont identiques");
+            else
+                System.out.println("Les deux etudiants ne sont pas identiques");
+        } else
+            System.out.println("Indices invalides ! Doit être entre 0 et " + (N - 1));
+    }
+}
+\end{lstlisting}
 
 \observation{La redéfinition de \texttt{toString()} permet l'affichage direct
 via \texttt{System.out.println(objet)}. En pratique, redéfinir aussi
@@ -639,6 +941,41 @@ d'achat par m².}
 
 \screenshot{Screenshot 2026-05-03 161643.png}{Classe \texttt{BienImmobilier} -- attributs, constructeur et \texttt{calculeValeurLocative}}
 
+\begin{lstlisting}[caption={\texttt{BienImmobilier.java} -- classe de base de la hiérarchie}]
+package TP3;
+
+public class BienImmobilier {
+    String adresse;
+    float surface;
+    float prixAcha;
+    float valeurEst;
+
+    public BienImmobilier() {
+        adresse = "Deafault";
+        surface = 0;
+        prixAcha = 0;
+        valeurEst = 0;
+    }
+
+    public BienImmobilier(String adress, float surface, float prixAcha) {
+        this.adresse = adress;
+        this.surface = surface;
+        this.prixAcha = prixAcha;
+    }
+
+    public void affiche() {
+        System.out.println("Adress: " + adresse);
+        System.out.println("Surface: " + surface);
+        System.out.println("Prix d'achat: " + prixAcha);
+        System.out.println("La valeur locative estimée: " + valeurEst);
+    }
+
+    public void calculeValeurLocative() {
+        valeurEst = (float) 0.005 * prixAcha;
+    }
+}
+\end{lstlisting}
+
 \observation{La classe \texttt{BienImmobilier} définit le comportement commun à
 tous les biens. La méthode \texttt{calculeValeurLocative()} est conçue pour être
 redéfinie (\textit{overridden}) par les sous-classes, posant les fondations du
@@ -652,6 +989,40 @@ polymorphisme.}
 $+10\,\%$ si jardin $> 50$ m², $+20\,\%$ si piscine.}
 
 \screenshot{Screenshot 2026-05-03 161714.png}{Classe \texttt{Maison} héritant de \texttt{BienImmobilier} et redéfinissant \texttt{calculeValeurLocative}}
+
+\begin{lstlisting}[caption={\texttt{Maison.java} -- héritage et surcharge de \texttt{calculeValeurLocative}}]
+package TP3;
+
+public class Maison extends BienImmobilier {
+    int nbrP;
+    float surfaceJ;
+    boolean existP;
+
+    public Maison() {
+        nbrP = 0; surfaceJ = 0; existP = false;
+    }
+
+    public Maison(int nbrP, float surfaceJ, boolean existP) {
+        super();
+        this.nbrP = nbrP;
+        this.surfaceJ = surfaceJ;
+        this.existP = existP;
+    }
+
+    public void affiche() {
+        super.affiche();
+        System.out.println("Nombre de pièces: " + nbrP);
+        System.out.println("Surface du jardin: " + surfaceJ);
+        System.out.println("Exist une piscine: " + existP);
+    }
+
+    public void calculeValeurLocative() {
+        super.calculeValeurLocative();
+        if (surfaceJ > 50) valeurEst *= (float) 1.1;
+        if (existP)        valeurEst *= (float) 1.2;
+    }
+}
+\end{lstlisting}
 
 \observation{La classe \texttt{Maison} appelle
 \texttt{super.calculeValeurLocative()} avant d'appliquer ses facteurs
@@ -668,6 +1039,44 @@ Résultat $\geq 0$.}
 
 \screenshot{Screenshot 2026-05-03 161802.png}{Classe \texttt{LocalCommercial} -- calcul spécifique de la valeur locative}
 
+\begin{lstlisting}[caption={\texttt{LocalCommercial.java} -- héritage avec règles métier différentes}]
+package TP3;
+
+public class LocalCommercial extends BienImmobilier {
+    String typeC;
+    boolean locationM;
+    float loyerM;
+
+    public LocalCommercial() {
+        typeC = "Default"; locationM = false; loyerM = 0;
+    }
+
+    public LocalCommercial(String typeC, boolean locationM, float loyerM) {
+        super();
+        this.typeC = typeC;
+        this.locationM = locationM;
+        this.loyerM = loyerM;
+    }
+
+    public void affiche() {
+        super.affiche();
+        System.out.println("Type de commerce: " + typeC);
+        System.out.println("La location meublée: " + locationM);
+        System.out.println("Loyer mensuel actuel: " + loyerM);
+    }
+
+    public void calculeValeurLocative() {
+        valeurEst = prixAcha * (float) 0.008;
+        if (locationM) valeurEst *= (float) 1.15;
+        switch (typeC) {
+            case "Boutique" -> valeurEst *= (float) 1.05;
+            case "Entrepôt" -> valeurEst *= (float) 0.9;
+        }
+        if (valeurEst < 0) valeurEst = 0;
+    }
+}
+\end{lstlisting}
+
 \observation{\texttt{LocalCommercial} recalcule entièrement sa valeur avec un
 taux différent (0,8\,\% vs 0,5\,\%). La garde \texttt{if (valeurEst < 0)}
 protège contre un résultat négatif causé par des combinaisons de coefficients
@@ -680,6 +1089,41 @@ commercial, créer les objets, calculer leur valeur locative et afficher leur
 état complet via \texttt{affiche()}.}
 
 \screenshot{Screenshot 2026-05-03 161821.png}{Classe \texttt{TestImmobilier} -- saisie utilisateur, calcul et affichage}
+
+\begin{lstlisting}[caption={\texttt{TestImmobilier.java} -- programme principal testant la hiérarchie}]
+package TP3;
+import java.util.Scanner;
+
+public class TestImmobilier {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Entre les info de la maison:");
+        Maison m = new Maison();
+        m.adresse  = scan.nextLine();
+        m.surface  = Float.parseFloat(scan.nextLine());
+        m.prixAcha = Float.parseFloat(scan.nextLine());
+        m.nbrP     = Integer.parseInt(scan.nextLine());
+        m.existP   = Boolean.parseBoolean(scan.nextLine());
+        m.surfaceJ = Float.parseFloat(scan.nextLine());
+
+        System.out.println("Entre les info de Local Commercial:");
+        LocalCommercial l = new LocalCommercial();
+        l.adresse   = scan.nextLine();
+        l.surface   = Float.parseFloat(scan.nextLine());
+        l.prixAcha  = Float.parseFloat(scan.nextLine());
+        l.typeC     = scan.nextLine();
+        l.locationM = Boolean.parseBoolean(scan.nextLine());
+        l.loyerM    = Float.parseFloat(scan.nextLine());
+
+        m.calculeValeurLocative();
+        l.calculeValeurLocative();
+
+        m.affiche();
+        l.affiche();
+    }
+}
+\end{lstlisting}
 
 \note{Dans le programme de test, les attributs sont accédés directement (sans
 setter) car leur modificateur d'accès est package-private par défaut. La bonne
@@ -717,7 +1161,40 @@ privés \texttt{immatriculation}, \texttt{capacite} et
 \texttt{calculerAutonomie()} et \texttt{calculerEfficacite()}, et les
 getters/setters.}
 
-\screenshot{Screenshot 2026-05-03 162150.png}{Classe abstraite \texttt{Vehicule} -- attributs, constructeur et méthodes abstraites}
+\screenshot{Screenshot 2026-05-03 162150.png}{Classe abstraite \texttt{Vehicule} -- attributs, constructeurs et méthodes abstraites}
+
+\begin{lstlisting}[caption={\texttt{Vehicule.java} -- classe abstraite définissant le contrat commun}]
+package TP4;
+
+public abstract class Vehicule {
+    private String immatriculation;
+    private int capacite;
+    private double consommationBase;
+
+    public Vehicule() {
+        immatriculation = "default";
+        capacite = 0;
+        consommationBase = 0;
+    }
+
+    public Vehicule(String immatriculation, int capacite, double consommationBase) {
+        this.immatriculation = immatriculation;
+        this.capacite = capacite;
+        this.consommationBase = consommationBase;
+    }
+
+    public String getImmatriculation()    { return immatriculation; }
+    public int    getCapacite()           { return capacite; }
+    public double getConsommationBase()   { return consommationBase; }
+
+    public void setImmatriculation(String immatriculation) { this.immatriculation = immatriculation; }
+    public void setCapacite(int capacite)                  { this.capacite = capacite; }
+    public void setConsommationBase(double v)              { this.consommationBase = v; }
+
+    public abstract double calculerAutonomie();
+    public abstract double calculerEfficacite();
+}
+\end{lstlisting}
 
 \observation{Déclarer \texttt{Vehicule} comme \texttt{abstract} empêche son
 instanciation directe et impose à toute sous-classe concrète d'implémenter
@@ -734,6 +1211,48 @@ Pollution $= \text{consommationBase} \times \text{cylindree} \times 0{,}02$.}
 
 \screenshot{Screenshot 2026-05-03 162227.png}{Classe \texttt{VehiculeThermique} -- implémentation des méthodes et \texttt{calculerPollution}}
 
+\begin{lstlisting}[caption={\texttt{VehiculeThermique.java} -- sous-classe concrète avec méthode propre}]
+package TP4;
+
+public class VehiculeThermique extends Vehicule {
+    private double niveauCarburant;
+    private String typeCarburant;
+    private int cylindree;
+
+    public VehiculeThermique() {
+        super();
+        niveauCarburant = 0;
+        typeCarburant = "Default";
+        cylindree = 0;
+    }
+
+    public double getNiveauCarburant()        { return niveauCarburant; }
+    public String getTypeCarburant()          { return typeCarburant; }
+    public int    getCylindree()              { return cylindree; }
+    public void setNiveauCarburant(double v)  { this.niveauCarburant = v; }
+    public void setTypeCarburant(String v)    { this.typeCarburant = v; }
+    public void setCylindree(int v)           { this.cylindree = v; }
+
+    public double calculerAutonomie() {
+        return niveauCarburant * 100 / getConsommationBase();
+    }
+    public double calculerEfficacite() {
+        return (getCapacite() * 100) / (getConsommationBase() * cylindree / 1000);
+    }
+    public double calculerPollution() {
+        return getConsommationBase() * cylindree * 0.02;
+    }
+
+    @Override
+    public String toString() {
+        return ("immatriculation: " + this.getImmatriculation() +
+                "\nautonomie,: "    + this.calculerAutonomie() +
+                "\nefficacité: "    + this.calculerEfficacite() +
+                "\npollution: "     + this.calculerPollution());
+    }
+}
+\end{lstlisting}
+
 \observation{La méthode \texttt{calculerPollution()} est propre à
 \texttt{VehiculeThermique} et n'appartient pas au contrat abstrait. Cela montre
 qu'une sous-classe peut ajouter ses propres comportements spécialisés
@@ -748,6 +1267,50 @@ Efficacité $= \frac{\text{capacité} \times \text{autonomie}}{\text{capacitéBa
 TempsRechargeRéel $= \text{tempsRecharge} \times (1 - \frac{\text{niveauBatterie}}{\text{capacitéBatterie}})$.}
 
 \screenshot{Screenshot 2026-05-03 162328.png}{Classe \texttt{VehiculeElectrique} -- implémentation des méthodes et \texttt{calculerTempsRechargeReel}}
+
+\begin{lstlisting}[caption={\texttt{VehiculeElectrique.java} -- sous-classe avec méthode \texttt{calculerTempsRechargeReel}}]
+package TP4;
+
+public class VehiculeElectrique extends Vehicule {
+    private double niveauBatterie;
+    private int tempsRecharge;
+    private int capaciteBatterie;
+
+    public VehiculeElectrique() {
+        super();
+        niveauBatterie = 0;
+        tempsRecharge = 0;
+        capaciteBatterie = 0;
+    }
+
+    public VehiculeElectrique(String immatriculation, int capacite, double consommationBase,
+                              double niveauBatterie, int tempsRecharge, int capaciteBatterie) {
+        super(immatriculation, capacite, consommationBase);
+        this.niveauBatterie = niveauBatterie;
+        this.tempsRecharge = tempsRecharge;
+        this.capaciteBatterie = capaciteBatterie;
+    }
+
+    public double calculerAutonomie() {
+        return niveauBatterie * 100 / (getConsommationBase() * 0.8);
+    }
+    public double calculerEfficacite() {
+        return (getCapacite() * calculerAutonomie())
+             / (capaciteBatterie * tempsRecharge / 60);
+    }
+    public double calculerTempsRechargeReel() {
+        return tempsRecharge * (1 - niveauBatterie / capaciteBatterie);
+    }
+
+    @Override
+    public String toString() {
+        return ("immatriculation: " + this.getImmatriculation() +
+                "\nautonomie,: "    + this.calculerAutonomie() +
+                "\nefficacité: "    + this.calculerEfficacite() +
+                "\ntemps de recharge réel: " + this.calculerTempsRechargeReel());
+    }
+}
+\end{lstlisting}
 
 \observation{\texttt{VehiculeElectrique} dispose de
 \texttt{calculerTempsRechargeReel()}, méthode sans équivalent thermique,
@@ -765,6 +1328,75 @@ chacun.}
 \screenshot{Screenshot 2026-05-03 162433.png}{Programme de test -- liste polymorphique et affichage des métriques thermiques}
 \screenshot{Screenshot 2026-05-03 162506.png}{Programme de test -- métriques des véhicules électriques et comparaison}
 \screenshot{Screenshot 2026-05-03 162521.png}{Programme de test -- résultats d'exécution complets}
+
+\begin{lstlisting}[caption={\texttt{GestionTransport.java} -- liste polymorphique et simulation de trajet}]
+package TP4;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+public class GestionTransport {
+    public static void main(String[] args) {
+        // Création des données
+        ArrayList<VehiculeThermique> l1 = new ArrayList<>();
+        VehiculeThermique t1 = new VehiculeThermique();
+        VehiculeThermique t2 = new VehiculeThermique();
+        VehiculeThermique t3 = new VehiculeThermique();
+        l1.add(t1); l1.add(t2); l1.add(t3);
+
+        ArrayList<VehiculeElectrique> l2 = new ArrayList<>();
+        VehiculeElectrique e1 = new VehiculeElectrique();
+        VehiculeElectrique e2 = new VehiculeElectrique();
+        VehiculeElectrique e3 = new VehiculeElectrique();
+        l2.add(e1); l2.add(e2); l2.add(e3);
+
+        // Affichage des métriques pour les véhicules thermiques
+        System.out.println("-------Métriques thermiques---------");
+        ListIterator<VehiculeThermique> it = l1.listIterator();
+        while (it.hasNext()) System.out.println(it.next().toString());
+
+        VehiculeThermique minV = l1.get(0);
+        for (VehiculeThermique p : l1)
+            if (p.calculerPollution() < minV.calculerPollution()) minV = p;
+        System.out.println("Le véhicule thermique le plus écologique : " + minV);
+
+        // Affichage des métriques pour les véhicules électriques
+        System.out.println("-------Métriques électriques---------");
+        for (VehiculeElectrique p : l2) System.out.println(p);
+
+        double moyE = 0;
+        for (VehiculeElectrique p : l2) moyE += p.calculerAutonomie();
+        moyE /= l2.size();
+        System.out.println("Autonomie moyenne (électriques): " + moyE);
+
+        // Liste polymorphique unique
+        double seuil = 10;
+        List<Vehicule> liste1 = new ArrayList<>();
+        liste1.addAll(l1);
+        liste1.addAll(l2);
+        Iterator<Vehicule> it3 = liste1.iterator();
+        while (it3.hasNext()) {
+            Vehicule v3 = it3.next();
+            if (v3.calculerEfficacite() > seuil) v3.toString();
+        }
+
+        double moyT = 0;
+        for (VehiculeThermique p : l1) moyT += p.calculerAutonomie();
+        moyT /= l1.size();
+        System.out.println("Autonomie moyenne thermiques vs électriques :"
+            + "\nthermiques : " + moyT + "\nélectriques: " + moyE);
+
+        // Simulation de trajet de 200 km
+        for (Vehicule v : liste1) {
+            System.out.println(v.getImmatriculation()
+                + (v.calculerAutonomie() >= 200
+                    ? " peut effectuer le trajet"
+                    : " ne peut pas effectuer le trajet"));
+        }
+    }
+}
+\end{lstlisting}
 
 \observation{Le programme stocke des objets de types concrets dans une
 \texttt{List<Vehicule>} : c'est le polymorphisme par substitution. L'appel de
@@ -806,6 +1438,51 @@ getters/setters, \texttt{toString()} formaté, \texttt{equals()} basé sur
 
 \screenshot{Screenshot 2026-05-03 162849.png}{Classe \texttt{Employe} -- implémentation de \texttt{Comparable} et \texttt{equals}}
 
+\begin{lstlisting}[caption={\texttt{Employe.java} -- classe métier avec \texttt{Comparable}}]
+package TP5;
+
+public class Employe implements Comparable<Employe> {
+    private int id;
+    private String nom;
+    private String departement;
+    private double salaire;
+
+    public Employe(int id, String nom, String departement, double salaire) {
+        this.id = id;
+        this.nom = nom;
+        this.departement = departement;
+        this.salaire = salaire;
+    }
+
+    public int getId()              { return id; }
+    public String getNom()          { return nom; }
+    public String getDepartement()  { return departement; }
+    public double getSlaire()       { return salaire; }
+
+    public void setId(int id)                    { this.id = id; }
+    public void setNom(String nom)               { this.nom = nom; }
+    public void setepartement(String d)          { this.departement = d; }
+    public void setSlaire(double s)              { this.salaire = s; }
+
+    @Override
+    public String toString() {
+        return "Id : " + id + "; Nom: " + nom
+             + "Departement: " + departement
+             + "Salaire: " + salaire;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return id == ((Employe) obj).getId();
+    }
+
+    @Override
+    public int compareTo(Employe autre) {
+        return Integer.compare(this.id, autre.id);
+    }
+}
+\end{lstlisting}
+
 \observation{L'implémentation de \texttt{Comparable<Employe>} est obligatoire
 pour que \texttt{TreeSet} puisse trier automatiquement les employés. Sans elle,
 une \texttt{ClassCastException} serait levée à la première insertion. La
@@ -831,6 +1508,89 @@ comparer les performances \texttt{Hashtable} vs \texttt{HashMap}.}
 \screenshot{Screenshot 2026-05-03 162942.png}{\texttt{GestionEmployes} -- parcours avec \texttt{Iterator} et \texttt{Enumeration}}
 \screenshot{Screenshot 2026-05-03 163005.png}{\texttt{GestionEmployes} -- utilisation de \texttt{HashMap} et \texttt{Hashtable}}
 \screenshot{Screenshot 2026-05-03 163023.png}{\texttt{GestionEmployes} -- test de performance et résultats}
+
+\begin{lstlisting}[caption={\texttt{GestionEmployes.java} -- panorama complet du framework Collections}]
+package TP5;
+import java.util.*;
+
+public class GestionEmployes {
+    public static void main(String[] arg) {
+        // === Collections Set ===
+        // HashSet
+        HashSet<Employe> ensembleEmployes = new HashSet<>();
+        for (int i = 0; i < 5; i++)
+            ensembleEmployes.add(new Employe(i, "Etudiant" + i + 1,
+                    "D" + i + 1, (i + 1) * 1500));
+
+        // TreeSet (tri naturel via Comparable)
+        TreeSet<Employe> ensembleTries = new TreeSet<>(ensembleEmployes);
+
+        // Mesure des performances
+        long t0 = System.nanoTime();
+        System.out.println(ensembleEmployes);
+        long t1 = System.nanoTime();
+        System.out.println("temps affichage HashSet : " + (t1 - t0));
+
+        t0 = System.nanoTime();
+        System.out.println(ensembleTries);
+        t1 = System.nanoTime();
+        System.out.println("temps affichage TreeSet : " + (t1 - t0));
+
+        // LinkedHashSet : fusion préservant l'ordre d'insertion
+        LinkedHashSet<Employe> ensembleLinked = new LinkedHashSet<>();
+        ensembleLinked.addAll(ensembleEmployes);
+        ensembleLinked.addAll(ensembleTries);
+
+        // Conversion en tableau
+        Employe[] tableauEmployes = new Employe[2];
+        tableauEmployes = ensembleLinked.toArray(tableauEmployes);
+
+        // === Collections Map ===
+        Hashtable<Integer, String> mapEmployes = new Hashtable<>();
+        ArrayList<String> listeNomsEmployes = new ArrayList<>();
+        for (int i = 0; i < tableauEmployes.length; i++) {
+            if (tableauEmployes[i].getSlaire() > 5000)
+                listeNomsEmployes.add(tableauEmployes[i].getNom());
+            else
+                mapEmployes.put(tableauEmployes[i].getId(),
+                                tableauEmployes[i].getNom());
+        }
+
+        // Recherche dans la Hashtable
+        if (mapEmployes.containsKey(103))      System.out.println("L'id 103 exist");
+        if (mapEmployes.containsValue("Mohamed")) System.out.println("Le Nom Mohamed exist");
+
+        // HashMap (copie de la Hashtable)
+        HashMap<Integer, String> copieMapEmployes = new HashMap<>(mapEmployes);
+
+        // === Itérateurs ===
+        // Iterator (Collection)
+        Iterator<String> iterator = listeNomsEmployes.iterator();
+        while (iterator.hasNext()) System.out.println(iterator.next());
+
+        // Enumeration (Hashtable)
+        Enumeration<String> e = mapEmployes.elements();
+        while (e.hasMoreElements()) System.out.println(e.nextElement());
+
+        // entrySet() (HashMap)
+        for (Map.Entry<Integer, String> s : copieMapEmployes.entrySet())
+            System.out.println("Id : " + s.getKey() + " | Nom : " + s.getValue());
+
+        // === Test de performance Hashtable vs HashMap ===
+        t0 = System.nanoTime();
+        for (Map.Entry<Integer, String> s : mapEmployes.entrySet())
+            System.out.println("Id : " + s.getKey() + " | Nom : " + s.getValue());
+        long r0 = System.nanoTime() - t0;
+
+        t0 = System.nanoTime();
+        for (Map.Entry<Integer, String> s : copieMapEmployes.entrySet())
+            System.out.println("Id : " + s.getKey() + " | Nom : " + s.getValue());
+        long r1 = System.nanoTime() - t0;
+
+        System.out.println("différence Hashtable vs HashMap (ns) : " + (r1 - r0));
+    }
+}
+\end{lstlisting}
 
 \observation{Le test avec \texttt{System.nanoTime()} montre que \texttt{HashSet}
 est généralement plus rapide que \texttt{TreeSet} (pas de maintien d'ordre).
@@ -881,6 +1641,30 @@ cinq sous-classes : \texttt{SoldeInsuffisantException},
 \screenshot{Screenshot 2026-05-17 143705.png}{Vue d'ensemble de la hiérarchie d'exceptions}
 \screenshot{Screenshot 2026-05-17 143724.png}{Tests de la hiérarchie d'exceptions}
 
+\begin{lstlisting}[caption={Hiérarchie des exceptions personnalisées du système bancaire}]
+// === Classe mère ===
+package TP6;
+public class BanqueException extends Exception {
+    public BanqueException(String mssg) { super(mssg); }
+}
+
+// === Sous-exceptions métier ===
+public class SoldeInsuffisantException        extends BanqueException {
+    public SoldeInsuffisantException(String m)        { super(m); } }
+
+public class CompteInexistantException        extends BanqueException {
+    public CompteInexistantException(String m)        { super(m); } }
+
+public class MontantInvalideException         extends BanqueException {
+    public MontantInvalideException(String m)         { super(m); } }
+
+public class DecouvertMaximumDepasseException extends BanqueException {
+    public DecouvertMaximumDepasseException(String m) { super(m); } }
+
+public class CompteBloqueException            extends BanqueException {
+    public CompteBloqueException(String m)            { super(m); } }
+\end{lstlisting}
+
 \observation{Toutes les exceptions héritent de \texttt{BanqueException}
 (elle-même héritière d'\texttt{Exception}). Un bloc
 \texttt{catch(BanqueException e)} peut ainsi intercepter toutes les
@@ -914,6 +1698,80 @@ méthodes : \texttt{deposer()}, \texttt{retirer()},
 \screenshot{Screenshot 2026-05-17 142820.png}{\texttt{CompteBancaire} -- méthode \texttt{effectuerVirement()} et journalisation}
 \screenshot{Screenshot 2026-05-17 142837.png}{\texttt{CompteBancaire} -- méthodes utilitaires et \texttt{toString()}}
 
+\begin{lstlisting}[caption={\texttt{CompteBancaire.java} -- attributs, registre statique et méthodes (extrait)}]
+package TP6;
+import java.util.*;
+
+public class CompteBancaire {
+    private String numeroCompte;
+    private String titulaire;
+    private double solde;
+    private double decouvertAutorise;
+    private boolean bloque;
+    private Date dateCreation;
+    private ArrayList<String> historiqueOperations;
+    private static List<CompteBancaire> listeTousLesComptes = new ArrayList<>();
+
+    public CompteBancaire(String numeroCompte, String titulaire, double solde,
+                          double decouvertAutorise, boolean bloque, Date dateCreation) {
+        try {
+            for (CompteBancaire c : getTousLesComptes())
+                if (c.getNumeroCompte().equals(numeroCompte))
+                    throw new BanqueException("Le compte du numero "
+                            + numeroCompte + " est deja exist");
+            this.numeroCompte = numeroCompte;
+        } catch (BanqueException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        this.titulaire = titulaire;
+        this.solde = solde;
+        this.decouvertAutorise = decouvertAutorise;
+        this.bloque = bloque;
+        this.dateCreation = dateCreation;
+        this.historiqueOperations = new ArrayList<>();
+        listeTousLesComptes.add(this);
+    }
+
+    // --- Getters/Setters omis pour la concision ---
+
+    public void deposer(double nbr) {
+        try {
+            if (nbr < 0)        throw new MontantInvalideException("le montant doit etre positif");
+            else if (getBloque()) throw new CompteBloqueException("le compte est bloqué");
+            setSolde(getSolde() + nbr);
+            setHistoriqueOperations("Deposer: " + nbr);
+        } catch (MontantInvalideException | CompteBloqueException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void retirer(double nbr) {
+        try {
+            if (nbr < 0)        throw new MontantInvalideException("le montant doit etre positif");
+            else if (getBloque()) throw new CompteBloqueException("le compte est bloqué");
+            else if (getSolde() - nbr < getDecouvertAutorise())
+                throw new DecouvertMaximumDepasseException("Insufisant");
+            setSolde(getSolde() - nbr);
+            setHistoriqueOperations("Retirer: " + nbr);
+        } catch (MontantInvalideException | CompteBloqueException
+               | DecouvertMaximumDepasseException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void effectuerVirement(String numeroSource,
+                                         String numeroDestinataire, double montant) {
+        CompteBancaire s = getCompte(numeroSource);
+        CompteBancaire d = getCompte(numeroDestinataire);
+        if (s != null && d != null) {
+            s.retirer(montant);
+            d.deposer(montant);
+        }
+    }
+}
+\end{lstlisting}
+
 \observation{Le registre statique \texttt{listeTousLesComptes} centralise tous
 les comptes créés, permettant la recherche par numéro depuis n'importe quel
 point du programme. La méthode \texttt{effectuerVirement()} délègue à
@@ -939,6 +1797,34 @@ tous les cas d'erreur (solde insuffisant, montant négatif, compte inexistant,
 compte bloqué).}
 
 \screenshot{Screenshot 2026-05-17 144059.png}{Programme principal -- tests de toutes les opérations bancaires et gestion des exceptions}
+
+\begin{lstlisting}[caption={\texttt{GestionCompteBancaire.java} -- scénarios de test couvrant tous les cas d'erreur}]
+package TP6;
+import java.util.Date;
+
+public class GestionCompteBancaire {
+    public static void main(String[] args) {
+        // 3 comptes valides
+        CompteBancaire c1 = new CompteBancaire("C1", "yahya", 100,  50, false, new Date());
+        CompteBancaire c2 = new CompteBancaire("C2", "adam",  1000, 50, false, new Date());
+        CompteBancaire c3 = new CompteBancaire("C3", "ayoub", 500,  50, false, new Date());
+
+        // Doublon : numéro existant -> CompteInexistantException levée
+        CompteBancaire c4 = new CompteBancaire("C3", "ayoub", 500, 50, false, new Date());
+
+        c1.deposer(200);                       // dépôt valide
+        c2.retirer(900);                       // retrait valide
+        CompteBancaire.effectuerVirement("C3", "C1", 200);  // virement OK
+        c2.retirer(60);                        // découvert max
+        c3.deposer(-1);                        // montant négatif
+        CompteBancaire.effectuerVirement("C3", "C7", 10);   // compte inexistant
+
+        // Compte bloqué
+        CompteBancaire c5 = new CompteBancaire("C5", "ayoub", 500, 50, true, new Date());
+        c5.deposer(100);
+    }
+}
+\end{lstlisting}
 
 \conclusionTP{Ce TP démontre la valeur des exceptions personnalisées pour
 produire des messages d'erreur métier précis. La séparation entre logique de
@@ -967,6 +1853,69 @@ chacun tente 3 retraits de 3\,000 DH. Observer les incohérences.}
 \screenshot{Screenshot 2026-05-17 145750.png}{\texttt{Distributeur} non synchronisé -- vérification et retrait sans protection}
 \screenshot{Screenshot 2026-05-17 145807.png}{Classe \texttt{Client} (\texttt{Runnable}) et classe \texttt{Main} de lancement}
 \screenshot{Screenshot 2026-05-17 145828.png}{Résultat d'exécution -- condition de course : solde négatif observé}
+
+\begin{lstlisting}[caption={\texttt{Distributeur.java} -- version non synchronisée (illustre la condition de course)}]
+package TP7;
+
+public class Distributeur {
+    private double fonds = 5000;
+    public double getFonds()              { return fonds; }
+    public void   setFonds(double fonds)  { this.fonds = fonds; }
+
+    public void retirer(double montant, String nomClient) {
+        System.out.println(nomClient + " vérifie le solde : " + getFonds());
+        if (montant <= getFonds()) {
+            System.out.println("Solde suffisant.");
+            setFonds(getFonds() - montant);
+            try { Thread.sleep(2000); }
+            catch (InterruptedException e) { throw new RuntimeException(e); }
+            System.out.println("Le nouveau solde : " + getFonds());
+        } else
+            System.out.println("Solde insuffisant.");
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{Client.java} -- thread client effectuant n retraits}]
+package TP7;
+
+class Client implements Runnable {
+    Distributeur distributeur;
+    String nom;
+    double montantRetrait;
+    int nombreOperations;
+
+    public Client(Distributeur d, String n, double m, int nbr) {
+        distributeur = d; nom = n; montantRetrait = m; nombreOperations = nbr;
+    }
+
+    @Override
+    public void run() {
+        int i = nombreOperations;
+        while (i > 0) {
+            distributeur.retirer(montantRetrait, nom);
+            try { Thread.sleep(1000); }
+            catch (InterruptedException e) { throw new RuntimeException(e); }
+            i--;
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{Test.java} -- lancement de deux threads concurrents}]
+package TP7;
+
+public class Test {
+    public static void main(String[] args) {
+        Distributeur d = new Distributeur();
+        Client c1 = new Client(d, "Ahmed", 3000, 3);
+        Client c2 = new Client(d, "Amal",  3000, 3);
+        Thread t1 = new Thread(c1);
+        Thread t2 = new Thread(c2);
+        t1.start(); t2.start();
+    }
+}
+\end{lstlisting}
 
 \observation{Sans synchronisation, une \textbf{condition de course}
 (\textit{race condition}) survient : les deux threads lisent simultanément
@@ -997,6 +1946,96 @@ de 3\,000 DH), et un thread démon afficheur toutes les 3 secondes.}
 \screenshot{Screenshot 2026-05-17 150146.png}{\texttt{DistributeurSecurise} -- méthodes \texttt{retirer()} et \texttt{deposer()} synchronisées}
 \screenshot{Screenshot 2026-05-17 150203.png}{Classe \texttt{ClientOperation} et thread démon afficheur}
 \screenshot{Screenshot 2026-05-17 150226.png}{Résultat d'exécution -- solde cohérent garanti par la synchronisation}
+
+\begin{lstlisting}[caption={\texttt{DistributeurSecurise.java} -- version thread-safe avec \texttt{synchronized + wait/notifyAll}}]
+package TP7;
+
+public class DistributeurSecurise {
+    private double fonds = 5000;
+
+    public synchronized double getFonds()              { return fonds; }
+    public synchronized void   setFonds(double fonds)  { this.fonds = fonds; }
+
+    public synchronized void retirer(double montant, String nomClient) {
+        System.out.println(nomClient + " tente de retirer : " + montant);
+        while (montant > getFonds()) {                 // boucle while OBLIGATOIRE
+            System.out.println("Solde insuffisant, " + nomClient + " attend...");
+            try { wait(); }
+            catch (InterruptedException e) { throw new RuntimeException(e); }
+        }
+        try { Thread.sleep(2000); }
+        catch (InterruptedException e) { throw new RuntimeException(e); }
+        setFonds(getFonds() - montant);
+        System.out.println("Le nouveau solde : " + getFonds());
+    }
+
+    public synchronized void deposer(double montant, String nomClient) {
+        System.out.println(nomClient + " dépose : " + montant);
+        setFonds(getFonds() + montant);
+        System.out.println("Le nouveau solde : " + getFonds());
+        notifyAll();                                   // réveille les threads en attente
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{ClientOperation.java} -- thread polyvalent (dépôt ou retrait)}]
+package TP7;
+
+public class ClientOperation implements Runnable {
+    DistributeurSecurise distributeur;
+    String nom;
+    boolean estDepot;
+    double montant;
+    int nombreOperations;
+
+    public ClientOperation(DistributeurSecurise d, String n, boolean i, double m, int nbr) {
+        distributeur = d; nom = n; estDepot = i; montant = m; nombreOperations = nbr;
+    }
+
+    @Override
+    public void run() {
+        int i = nombreOperations;
+        while (i > 0) {
+            if (estDepot) distributeur.deposer(montant, nom);
+            else          distributeur.retirer(montant, nom);
+            try { Thread.sleep(1000); }
+            catch (InterruptedException e) { throw new RuntimeException(e); }
+            i--;
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{MainSecurise.java} -- orchestration des threads et thread démon afficheur}]
+package TP7;
+
+public class MainSecurise {
+    public static void main(String[] args) {
+        DistributeurSecurise d = new DistributeurSecurise();
+
+        ClientOperation c1 = new ClientOperation(d, "Ahmed", false, 3000, 3);
+        ClientOperation c2 = new ClientOperation(d, "Amal",  true,  2000, 2);
+        ClientOperation c3 = new ClientOperation(d, "Amal",  false, 3000, 1);
+
+        Thread t1 = new Thread(c1);
+        Thread t2 = new Thread(c2);
+        Thread t3 = new Thread(c3);
+
+        Runnable afficheur = () -> {
+            while (true) {
+                System.out.println("Solde actuel : " + d.getFonds());
+                try { Thread.sleep(3000); }
+                catch (InterruptedException e) { return; }
+            }
+        };
+        Thread c = new Thread(afficheur, "afficheur");
+        c.setDaemon(true);                  // se termine avec le programme
+        c.start();
+
+        t1.start(); t2.start(); t3.start();
+    }
+}
+\end{lstlisting}
 
 \observation{L'utilisation de \texttt{while (fonds < montant) \{ wait(); \}}
 est préférable à \texttt{if} car un thread peut être réveillé par
@@ -1037,6 +2076,22 @@ console.}
 
 \screenshot{Screenshot 2026-05-17 150625.png}{Code -- Écriture et lecture d'un catalogue texte avec \texttt{try-with-resources}}
 
+\begin{lstlisting}[caption={Catalogue produits -- écriture/lecture d'un fichier texte}]
+// Ecriture
+try (BufferedWriter bw = new BufferedWriter(new FileWriter("./catalogue.txt"))) {
+    bw.write("nom,prix unitaire"); bw.newLine();
+    bw.write("Stylo,5.00");        bw.newLine();
+    bw.write("Cahier,15.00");
+} catch (IOException e) { throw new RuntimeException(e); }
+
+// Lecture
+try (BufferedReader br = new BufferedReader(new FileReader("./catalogue.txt"))) {
+    String line;
+    while ((line = br.readLine()) != null)
+        System.out.println(line);
+} catch (IOException e) { throw new RuntimeException(e); }
+\end{lstlisting}
+
 \observation{L'instruction \texttt{try-with-resources} (Java 7+) garantit la
 fermeture automatique des flux même en cas d'exception, éliminant les fuites
 de ressources. \texttt{PrintWriter} wrappé autour de \texttt{FileWriter} ajoute
@@ -1056,6 +2111,35 @@ unitaire) et afficher les données dans un tableau formaté.}
 
 \screenshot{Screenshot 2026-05-17 150649.png}{Code -- Parsing CSV ligne par ligne et calcul des totaux par commande}
 
+\begin{lstlisting}[caption={\texttt{Test.java} (TP9) -- analyse d'un fichier CSV de commandes}]
+package TP9;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+
+public class Test {
+    public static void main(String[] args) {
+        try (BufferedReader cmd = new BufferedReader(
+                new FileReader("./src/TP9/commande.csv"))) {
+            String line;
+            List<String> l;
+            float total;
+
+            line = cmd.readLine();   // saute l'en-tête
+            if (line != null) {
+                System.out.println("id_commande, montant total");
+                while ((line = cmd.readLine()) != null) {
+                    l = Arrays.stream(line.split(",")).toList();
+                    total = Float.parseFloat(l.get(3))
+                          * Float.parseFloat(l.get(4));
+                    System.out.println(l.get(0) + ": " + total);
+                }
+            }
+        } catch (IOException e) { throw new RuntimeException(e); }
+    }
+}
+\end{lstlisting}
+
 \observation{\texttt{String.split(",")} suppose un séparateur virgule sans
 espace. L'appel à \texttt{.trim()} sur chaque colonne permet de gérer les
 espaces parasites. Pour des CSV complexes (guillemets, virgules dans les
@@ -1074,6 +2158,60 @@ de lignes copiées.}
 \screenshot{Screenshot 2026-05-17 150908.png}{\texttt{CopieFichier} -- Méthode 1 : copie caractère par caractère (\texttt{FileReader/FileWriter})}
 \screenshot{Screenshot 2026-05-17 150944.png}{\texttt{CopieFichier} -- Méthode 2 : copie ligne par ligne (\texttt{BufferedReader/PrintWriter})}
 \screenshot{Screenshot 2026-05-17 150954.png}{Programme de test -- comparaison des deux méthodes et mesure du temps d'exécution}
+
+\begin{lstlisting}[caption={\texttt{CopieFichier.java} -- deux méthodes de copie comparées}]
+package TP9;
+import java.io.*;
+
+public class CopieFichier {
+
+    // Méthode 1 : copie LIGNE PAR LIGNE (bufferisée -- rapide)
+    public static int CopierLigne(String src, String dest) {
+        int nbligne = 0;
+        try (BufferedReader in  = new BufferedReader(new FileReader(src));
+             BufferedWriter out = new BufferedWriter(new FileWriter(dest))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                out.write(line);
+                out.newLine();
+                nbligne++;
+            }
+        } catch (IOException e) { throw new RuntimeException(e); }
+        return nbligne;
+    }
+
+    // Méthode 2 : copie CARACTÈRE PAR CARACTÈRE (non bufferisée -- lente)
+    public static int CopierCar(String src, String dest) {
+        int nbligne = 0;
+        try (FileReader in  = new FileReader(src);
+             FileWriter out = new FileWriter(dest)) {
+            int c;
+            while ((c = in.read()) != -1) {
+                out.write(c);
+                nbligne++;
+            }
+        } catch (IOException e) { throw new RuntimeException(e); }
+        return nbligne;
+    }
+
+    public static void afficherContenue(String src) {
+        System.out.println("=== Contenu de : " + src + " ===");
+        try (BufferedReader rd = new BufferedReader(new FileReader(src))) {
+            String line;
+            while ((line = rd.readLine()) != null)
+                System.out.println(line);
+        } catch (IOException e) { throw new RuntimeException(e); }
+    }
+
+    public static void main(String[] args) {
+        afficherContenue("./src/TP9/facture_src.txt");
+        int n1 = CopierCar  ("./src/TP9/facture_src.txt", "./src/TP9/facture_dest.txt");
+        System.out.println("[M1] Lignes copiées : " + n1);
+        int n2 = CopierLigne("./src/TP9/facture_src.txt", "./src/TP9/facture_dest.txt");
+        System.out.println("[M2] Lignes copiées : " + n2);
+    }
+}
+\end{lstlisting}
 
 \observation{La copie caractère par caractère est nettement plus lente car elle
 effectue un appel système pour chaque caractère lu. La copie ligne par ligne,
@@ -1099,6 +2237,54 @@ déduire la valeur de \texttt{base} et le nombre de multiples stockés.}
 
 \screenshot{Screenshot 2026-05-17 151447.png}{\texttt{MultiplesReel} -- écriture des couples (coefficient, multiple) avec \texttt{DataOutputStream}}
 \screenshot{Screenshot 2026-05-17 151501.png}{\texttt{MultiplesReel} -- lecture avec \texttt{DataInputStream} et déduction de \texttt{base}}
+
+\begin{lstlisting}[caption={\texttt{MultiplesReel.java} -- écriture et lecture binaire typée}]
+package TP9;
+import java.io.*;
+
+public class MultiplesReel {
+    private double base;
+
+    public MultiplesReel(double d) { base = d; }
+
+    public void ecrireMultiples(String nomFichier, int n) {
+        try (DataOutputStream ou = new DataOutputStream(
+                new FileOutputStream(nomFichier))) {
+            for (int i = 1; i <= n; i++) {
+                double result = i * base;
+                ou.write(i);              // coefficient
+                ou.writeDouble(result);   // multiple
+            }
+        } catch (IOException e) { /* gestion silencieuse */ }
+    }
+
+    public void lireEtAfficher(String nomFichier) {
+        try (DataInputStream in = new DataInputStream(
+                new FileInputStream(nomFichier))) {
+            int cout = 0;
+            double baseD = 0;
+            int coeff      = in.readInt();
+            double result  = in.readFloat();
+            baseD = result / coeff;
+            cout++;
+            while (true) {
+                try { in.readInt(); in.readDouble(); cout++; }
+                catch (EOFException e) { break; }
+            }
+            System.out.println("La valeur du réel base : " + baseD);
+            System.out.println("Le nombre de multiples stockés : " + cout);
+        } catch (IOException e) {
+            System.err.println("Erreur lecture : " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] arg) {
+        MultiplesReel m = new MultiplesReel(2.2);
+        m.ecrireMultiples("./src/TP9/facture_dest.txt", 10);
+        m.lireEtAfficher("./src/TP9/facture_dest.txt");
+    }
+}
+\end{lstlisting}
 
 \observation{Les fichiers binaires écrits avec \texttt{DataOutputStream}
 stockent les données dans un format compact non lisible par un éditeur de
@@ -1126,6 +2312,61 @@ de chaînes.}
 
 \screenshot{Screenshot 2026-05-17 151850.png}{Classe \texttt{Client} -- implémentation de \texttt{Serializable} et \texttt{serialVersionUID}}
 \screenshot{Screenshot 2026-05-17 151905.png}{Programme de sérialisation -- écriture dans \texttt{clients.ser} et relecture des noms complets}
+
+\begin{lstlisting}[caption={\texttt{Client.java} (TP9) -- objet sérialisable}]
+package TP9;
+import java.io.Serializable;
+
+public class Client implements Serializable {
+    private String nom;
+    private String prenom;
+    private String adress;
+    private int idClient;
+
+    public String getNom()    { return nom; }
+    public String getPrenom() { return prenom; }
+    public String getAdress() { return adress; }
+
+    public Client(int id, String n, String p, String a) {
+        idClient = id; nom = n; prenom = p; adress = a;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{SerializationDemo.java} -- écriture/lecture d'objets via \texttt{ObjectOutputStream}}]
+package TP9;
+import java.io.*;
+
+public class SerializationDemo {
+    public static void main(String[] args)
+            throws IOException, ClassNotFoundException {
+        Client[] clients = {
+            new Client(1, "Ali",    "Benali",  "Casablanca"),
+            new Client(2, "Fatima", "El Amri", "Rabat"),
+            new Client(3, "Omar",   "Haddi",   "Khouribga")
+        };
+
+        // Sérialisation
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("./src/TP9/client.ser"))) {
+            for (Client c : clients) oos.writeObject(c);
+        }
+
+        // Désérialisation
+        String[] noms = new String[clients.length];
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("./src/TP9/client.ser"))) {
+            for (int i = 0; i < noms.length; i++) {
+                Client c = (Client) ois.readObject();
+                noms[i] = c.getPrenom() + " " + c.getNom();
+            }
+        }
+
+        System.out.println("Noms complets : ");
+        for (String n : noms) System.out.println(" " + n);
+    }
+}
+\end{lstlisting}
 
 \observation{La constante \texttt{serialVersionUID = 1L} est une bonne pratique
 explicite : elle contrôle la compatibilité entre versions de la classe. Sans UID
@@ -1208,6 +2449,120 @@ récupérée via \texttt{getSelectedItem().toString()} lors du clic sur
 \screenshot{Screenshot 2026-05-TP10-code1.png}{Classe principale -- Déclaration de la \texttt{JFrame} et des composants Swing}
 \screenshot{Screenshot 2026-05-TP10-code2.png}{Méthode \texttt{actionPerformed} -- Bouton Ajouter et connexion JDBC}
 \screenshot{Screenshot 2026-05-TP10-code3.png}{Bouton Modifier -- Requête UPDATE et bouton Quitter}
+
+\begin{lstlisting}[caption={\texttt{Test.java} -- vérification de la connexion MySQL}]
+package TP10;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Test {
+    public static void main(String[] args) {
+        String url  = "jdbc:mysql://localhost:3306/t-membre";
+        String user = "root";
+        String pwd  = "yahya123";
+        try (Connection conn = DriverManager.getConnection(url, user, pwd)) {
+            System.out.println("Connexion MySQL réussie !");
+        } catch (SQLException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\texttt{fenetrePrincipale.java} -- construction de l'interface Swing (extrait)}]
+package TP10;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.sql.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class fenetrePrincipale extends JFrame {
+
+    JPanel titlePanel, formPanel, buttonPanel;
+    JLabel titre;
+    JLabel lid, lprenom, lnom, ladresse, ldateN, llieuN, lsexe, lprofession;
+    JTextField id, prenom, nom, adresse, dateN, lieuN, profession;
+    JComboBox<String> sexe;
+    JButton bAjouter, bModifier, bQuitter;
+    Connection conn;
+
+    public fenetrePrincipale() {
+        // === Connexion à MySQL ===
+        try {
+            String url = "jdbc:mysql://localhost:3306/t-membre"
+                       + "?useSSL=false&allowPublicKeyRetrieval=true";
+            conn = DriverManager.getConnection(url, "root", "yahya123");
+            System.out.println("Connexion réussie !");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                "Erreur de connexion : " + e.getMessage(),
+                "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // === Configuration de la JFrame ===
+        setTitle("Formulaire");
+        setSize(650, 600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        // === Panel titre ===
+        titlePanel = new JPanel();
+        titre = new JLabel("Formulaire d'inscription");
+        titre.setFont(new Font("Serif", Font.BOLD, 28));
+        titlePanel.add(titre);
+
+        // === Panel formulaire (GridLayout 8x2) ===
+        formPanel = new JPanel();
+        formPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+        formPanel.setLayout(new GridLayout(8, 2, 20, 20));
+
+        lid         = new JLabel("IdMembre:");          id          = new JTextField();
+        lprenom     = new JLabel("Prenom:");            prenom      = new JTextField();
+        lnom        = new JLabel("Nom:");               nom         = new JTextField();
+        ladresse    = new JLabel("Adresse:");           adresse     = new JTextField();
+        ldateN      = new JLabel("Date de Naissance:"); dateN       = new JTextField();
+        llieuN      = new JLabel("Lieu de Naissance:"); lieuN       = new JTextField();
+        lsexe       = new JLabel("Sexe:");
+        sexe        = new JComboBox<>();
+        sexe.addItem("M"); sexe.addItem("F");
+        lprofession = new JLabel("Profession:");        profession  = new JTextField();
+
+        formPanel.add(lid);         formPanel.add(id);
+        formPanel.add(lprenom);     formPanel.add(prenom);
+        formPanel.add(lnom);        formPanel.add(nom);
+        formPanel.add(ladresse);    formPanel.add(adresse);
+        formPanel.add(ldateN);      formPanel.add(dateN);
+        formPanel.add(llieuN);      formPanel.add(lieuN);
+        formPanel.add(lsexe);       formPanel.add(sexe);
+        formPanel.add(lprofession); formPanel.add(profession);
+
+        // === Panel boutons ===
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 20));
+        bAjouter  = new JButton("Ajouter");
+        bModifier = new JButton("Modifier");
+        bQuitter  = new JButton("Quitter");
+
+        // ... (ActionListeners présentés dans le TP 11) ...
+
+        buttonPanel.add(bAjouter);
+        buttonPanel.add(bModifier);
+        buttonPanel.add(bQuitter);
+
+        add(titlePanel,  BorderLayout.NORTH);
+        add(formPanel,   BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) { new fenetrePrincipale(); }
+}
+\end{lstlisting}
 
 \observation{Le bouton \textbf{Ajouter} exécute une requête
 \texttt{INSERT INTO T\_Membre VALUES (?,?,?,?,?,?,?,?)} avec les valeurs

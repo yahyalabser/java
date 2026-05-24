@@ -1,0 +1,1577 @@
+\documentclass[12pt,a4paper]{report}
+
+% ─── Packages ───────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{etoolbox}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{ifthen}
+% CORRECTION : zref-abspage pour éviter les conflits de compteurs avec cleardoublepage
+\usepackage{emptypage}
+
+\tcbuselibrary{skins, breakable, listings}
+
+% ─── Mise en page ───────────────────────────────────────────────────────────
+\geometry{
+  top=2.5cm, bottom=2.8cm,
+  left=2.8cm, right=2.5cm,
+  headheight=18pt
+}
+\setlength{\headsep}{10pt}
+
+% ─── Palette de couleurs ────────────────────────────────────────────────────
+\definecolor{bleuENSA}{RGB}{0, 56, 101}
+\definecolor{bleuClair}{RGB}{214, 228, 243}
+\definecolor{bleuMoyen}{RGB}{70, 130, 180}
+\definecolor{bleuAccent}{RGB}{0, 102, 153}
+\definecolor{bleuTitre}{RGB}{0, 78, 140}
+\definecolor{vertCode}{RGB}{0, 100, 0}
+\definecolor{vertSucces}{RGB}{0, 110, 50}
+\definecolor{vertClairBg}{RGB}{230, 247, 237}
+\definecolor{grisCode}{RGB}{248, 249, 250}
+\definecolor{grisClairBg}{RGB}{245, 246, 248}
+\definecolor{grisFond}{RGB}{250, 251, 253}
+\definecolor{orangeNote}{RGB}{180, 90, 0}
+\definecolor{orangeClairBg}{RGB}{255, 243, 215}
+\definecolor{rougeErr}{RGB}{140, 15, 15}
+\definecolor{rougeClairBg}{RGB}{253, 232, 232}
+\definecolor{grisBorder}{RGB}{180, 195, 210}
+\definecolor{grisTexte}{RGB}{70, 80, 90}
+\definecolor{violetInfo}{RGB}{80, 45, 140}
+\definecolor{violetClairBg}{RGB}{238, 230, 255}
+\definecolor{orDore}{RGB}{153, 117, 0}
+\definecolor{sujBg}{RGB}{240, 248, 255}
+\definecolor{sujBorder}{RGB}{0, 102, 153}
+
+% ─── Style de code Java ─────────────────────────────────────────────────────
+\lstdefinestyle{java}{
+  language=Java,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{bleuENSA}\bfseries,
+  stringstyle=\color{rougeErr},
+  commentstyle=\color{vertCode}\itshape,
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=10pt,
+  stepnumber=1,
+  backgroundcolor=\color{grisCode},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{grisBorder},
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=4,
+  showstringspaces=false,
+  captionpos=b,
+  xleftmargin=18pt,
+  xrightmargin=5pt,
+  aboveskip=8pt,
+  belowskip=8pt,
+  extendedchars=true,
+  inputencoding=utf8,
+  literate=
+    {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1
+    {à}{{\`a}}1 {â}{{\^a}}1 {ä}{{\"a}}1
+    {î}{{\^i}}1 {ï}{{\"i}}1
+    {ô}{{\^o}}1 {ö}{{\"o}}1
+    {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1
+    {ç}{{\c{c}}}1
+    {É}{{\'E}}1 {È}{{\`E}}1 {Ê}{{\^E}}1
+    {À}{{\`A}}1 {Â}{{\^A}}1
+    {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1 {Ç}{{\c{C}}}1
+    {²}{{\textsuperscript{2}}}1
+    {°}{{$^\circ$}}1,
+  morekeywords={String, ArrayList, HashSet, TreeSet, LinkedHashSet,
+                HashMap, Hashtable, Iterator, Enumeration, Serializable,
+                DataOutputStream, DataInputStream, FileOutputStream,
+                FileInputStream, ObjectOutputStream, ObjectInputStream,
+                BufferedReader, BufferedWriter, FileReader, FileWriter,
+                PrintWriter, Scanner, Override, var, Date, synchronized,
+                Runnable, Thread, wait, notifyAll, notify},
+}
+\lstset{style=java}
+
+% ─── En-têtes et pieds de page ──────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{bleuENSA}\textbf{ENSA Khouribga}%
+  ~\textcolor{grisBorder}{$|$}~\textit{IID1~~·~~LABSER Yahya}}
+\fancyhead[R]{\small\color{bleuAccent}\textsc{Module POO -- Java}}
+\fancyfoot[L]{\small\color{grisTexte}\textit{Rapport de TPs -- 2024/2025}}
+\fancyfoot[C]{\small\color{bleuENSA}\thepage}
+\fancyfoot[R]{\small\color{grisTexte}\textit{Prof. N. GHERABI}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{bleuENSA}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0.3pt}
+\renewcommand{\footrule}{%
+  \hbox to\headwidth{\color{grisBorder}\leaders\hrule height \footrulewidth\hfill}}
+
+% ─── CORRECTION PRINCIPALE : Numérotation des TPs ──────────────────────────
+\newcounter{tpnum}
+\setcounter{tpnum}{0}
+
+\renewcommand{\thesection}{\arabic{tpnum}.\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{tpnum}.\arabic{section}.\arabic{subsection}}
+
+\newcommand{\tpchapter}[2]{%   #1 = numéro TP affiché, #2 = titre
+  \clearpage
+  \setcounter{tpnum}{#1}%
+  \setcounter{section}{0}%
+  \setcounter{subsection}{0}%
+  \phantomsection
+  \addcontentsline{toc}{chapter}{TP #1~~--~~#2}%
+  \thispagestyle{fancy}%
+  \noindent{\color{bleuAccent!40}\rule{\linewidth}{0.5pt}}\\[-6pt]
+  \noindent{\color{bleuENSA}\rule{\linewidth}{3pt}}%
+  \vspace{8pt}\par
+  \noindent{%
+    \parbox[t]{2.2cm}{%
+      \color{bleuENSA}\LARGE\bfseries\scshape TP#1%
+    }%
+    \hspace{6pt}%
+    \parbox[t]{\dimexpr\linewidth-2.8cm\relax}{%
+      \color{bleuTitre}\LARGE\bfseries #2%
+    }%
+  }\par
+  \vspace{6pt}%
+  \noindent{\color{bleuENSA}\rule{\linewidth}{3pt}}\\[-4pt]
+  \noindent{\color{bleuAccent!40}\rule{\linewidth}{0.5pt}}%
+  \vspace{12pt}\par
+}
+
+% ─── Style des sections ─────────────────────────────────────────────────────
+\titleformat{\section}
+  {\color{bleuAccent}\large\bfseries}
+  {\thesection}{0.8em}{}
+  [\vspace{1pt}{\color{bleuAccent!35}\titlerule[0.6pt]}\vspace{4pt}]
+
+\titleformat{\subsection}
+  {\color{bleuENSA!80}\normalsize\bfseries}
+  {\thesubsection}{0.7em}{}
+
+\titlespacing{\section}{0pt}{14pt}{6pt}
+\titlespacing{\subsection}{0pt}{10pt}{4pt}
+
+% ─── Commandes screenshots ──────────────────────────────────────────────────
+\newcommand{\screenshot}[2]{%
+  \begin{center}
+    \IfFileExists{#1}{%
+      \fbox{\includegraphics[width=0.90\linewidth,keepaspectratio]{#1}}%
+    }{%
+      \begin{mdframed}[linecolor=grisBorder, linewidth=0.5pt,
+        backgroundcolor=grisFond,
+        innertopmargin=14pt, innerbottommargin=14pt,
+        innerleftmargin=10pt, innerrightmargin=10pt]
+        \centering\color{grisTexte}\small
+        \faImage~~\textit{[Capture d'écran : \texttt{#1}]}
+      \end{mdframed}%
+    }%
+    \par\vspace{3pt}
+    {\footnotesize\color{grisTexte}\textit{#2}}%
+  \end{center}%
+  \vspace{4pt}%
+}
+
+% ─── Boîte Énoncé ───────────────────────────────────────────────────────────
+\newmdenv[
+  linecolor=sujBorder,
+  linewidth=1pt,
+  topline=true, rightline=true, bottomline=true, leftline=true,
+  leftmargin=0pt,
+  innerleftmargin=12pt, innertopmargin=8pt, innerbottommargin=8pt,
+  innerrightmargin=12pt,
+  backgroundcolor=sujBg,
+  skipabove=10pt, skipbelow=10pt,
+  roundcorner=3pt
+]{enonce_env}
+
+\newcommand{\enonce}[1]{%
+  \begin{enonce_env}
+    \textbf{\color{sujBorder}\faClipboardList~~Énoncé :}~#1
+  \end{enonce_env}
+}
+
+% ─── Boîtes personnalisées ──────────────────────────────────────────────────
+\newmdenv[
+  linecolor=bleuENSA, linewidth=3pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  backgroundcolor=bleuClair,
+  skipabove=12pt, skipbelow=12pt, roundcorner=2pt
+]{objectifBox}
+
+\newmdenv[
+  linecolor=violetInfo, linewidth=2.5pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=violetClairBg,
+  skipabove=10pt, skipbelow=10pt, roundcorner=2pt
+]{observationBox}
+
+\newmdenv[
+  linecolor=orangeNote, linewidth=2.5pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=orangeClairBg,
+  skipabove=10pt, skipbelow=10pt, roundcorner=2pt
+]{noteBox}
+
+\newmdenv[
+  linecolor=vertSucces, linewidth=2.5pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=vertClairBg,
+  skipabove=12pt, skipbelow=12pt, roundcorner=2pt
+]{conclusionTPBox}
+
+\newmdenv[
+  linecolor=rougeErr, linewidth=2.5pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=rougeClairBg,
+  skipabove=10pt, skipbelow=10pt, roundcorner=2pt
+]{erreurBox}
+
+\newmdenv[
+  linecolor=bleuMoyen, linewidth=2.5pt,
+  topline=false, rightline=false, bottomline=false,
+  leftmargin=0pt, innerleftmargin=14pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=grisClairBg,
+  skipabove=10pt, skipbelow=10pt, roundcorner=2pt
+]{problemeBox}
+
+% ─── Commandes raccourcis ────────────────────────────────────────────────────
+\newcommand{\objectif}[1]{%
+  \begin{objectifBox}
+    \textbf{\color{bleuENSA}\faBullseye~~Objectif :}~~#1
+  \end{objectifBox}
+}
+\newcommand{\observation}[1]{%
+  \begin{observationBox}
+    \textbf{\color{violetInfo}\faEye~~Observation :}~~#1
+  \end{observationBox}
+}
+\newcommand{\note}[1]{%
+  \begin{noteBox}
+    \textbf{\color{orangeNote}\faInfoCircle~~Note :}~~#1
+  \end{noteBox}
+}
+\newcommand{\conclusionTP}[1]{%
+  \begin{conclusionTPBox}
+    \textbf{\color{vertSucces}\faCheckCircle~~Conclusion :}~~#1
+  \end{conclusionTPBox}
+}
+\newcommand{\erreurFrequente}[1]{%
+  \begin{erreurBox}
+    \textbf{\color{rougeErr}\faExclamationTriangle~~Erreur fréquente :}~~#1
+  \end{erreurBox}
+}
+\newcommand{\probleme}[1]{%
+  \begin{problemeBox}
+    \textbf{\color{bleuMoyen}\faWrench~~Problème rencontré et solution :}~~#1
+  \end{problemeBox}
+}
+
+% ─── Hyperlinks ─────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=bleuENSA,
+  urlcolor=bleuAccent,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  pdftitle={Rapport TPs POO Java -- ENSA Khouribga -- LABSER Yahya},
+  pdfauthor={LABSER Yahya},
+  pdfsubject={Programmation Orientée Objet en Java},
+}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ─── Page de garde ──────────────────────────────────────────────────────────
+\begin{titlepage}
+  \centering
+
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[bleuENSA] (current page.north west)
+      rectangle ([yshift=-4.2cm]current page.north east);
+    \fill[orDore] ([yshift=-4.2cm]current page.north west)
+      rectangle ([yshift=-4.55cm]current page.north east);
+
+    \node[anchor=north, text=white] at ([yshift=-0.75cm]current page.north)
+      {\Large\bfseries\scshape École Nationale des Sciences Appliquées};
+    \node[anchor=north, text=white!80] at ([yshift=-1.6cm]current page.north)
+      {\large Khouribga~~·~~Université Sultan Moulay Slimane};
+    \node[anchor=north, text=white!60] at ([yshift=-2.55cm]current page.north)
+      {\normalsize Filière : Ingénierie Informatique et Données~|~IID1};
+    \draw[white!40, line width=0.5pt]
+      ([yshift=-3.4cm, xshift=3cm]current page.north west) --
+      ([yshift=-3.4cm, xshift=-3cm]current page.north east);
+  \end{tikzpicture}
+
+  \vspace{5.0cm}
+
+  {\color{bleuENSA!40}\rule{0.12\linewidth}{0.4pt}}~%
+  {\color{orDore}\rule{0.60\linewidth}{1.8pt}}~%
+  {\color{bleuENSA!40}\rule{0.12\linewidth}{0.4pt}}
+
+  \vspace{0.7cm}
+
+  {\fontsize{26}{32}\selectfont\bfseries\color{bleuENSA}
+    Rapport de Travaux Pratiques}\\[0.4cm]
+  {\LARGE\bfseries\color{grisTexte}
+    Module : Programmation Orientée Objet}\\[0.3cm]
+  {\Large\color{bleuMoyen}\itshape Langage Java}
+
+  \vspace{0.6cm}
+
+  {\color{bleuENSA!40}\rule{0.12\linewidth}{0.4pt}}~%
+  {\color{orDore}\rule{0.60\linewidth}{1.8pt}}~%
+  {\color{bleuENSA!40}\rule{0.12\linewidth}{0.4pt}}
+
+  \vspace{1.2cm}
+
+  \begin{mdframed}[linecolor=bleuENSA, linewidth=1.2pt,
+    backgroundcolor=bleuClair,
+    innertopmargin=14pt, innerbottommargin=14pt,
+    innerleftmargin=26pt, innerrightmargin=26pt,
+    roundcorner=5pt]
+    \begin{tabular}{@{}>{\bfseries\color{bleuENSA}}l%
+                       @{\hspace{1.2em}:\hspace{1.2em}}l@{}}
+      Établissement & ENSA Khouribga \\[7pt]
+      Filière       & IID1 \\[7pt]
+      Étudiant      & \textbf{\Large LABSER Yahya} \\[7pt]
+      Encadrant     & Prof.\ Noreddine GHERABI \\[7pt]
+      Année         & 2024 -- 2025 \\
+    \end{tabular}
+  \end{mdframed}
+
+  \vspace{0.8cm}
+
+  \begin{mdframed}[linecolor=grisBorder, linewidth=0.8pt,
+    backgroundcolor=white,
+    innertopmargin=12pt, innerbottommargin=12pt,
+    innerleftmargin=10pt, innerrightmargin=10pt,
+    roundcorner=5pt]
+    \centering
+    {\large\bfseries\color{bleuENSA}Sommaire des Travaux Pratiques}\\[8pt]
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{0.97\linewidth}{@{}c X p{3.8cm}@{}}
+      \toprule
+      \rowcolor{bleuENSA!12}
+      \textbf{TP} & \textbf{Thème} & \textbf{Concepts clés} \\
+      \midrule
+      1  & Concepts de base de la programmation Java    & Boucles, Switch, Classes \\
+      2  & Tableaux, chaînes de caractères et méthodes  & Tableaux, \texttt{toString}, \texttt{equals} \\
+      3  & Héritage simple -- Gestion immobilière       & \texttt{extends}, \texttt{super} \\
+      4  & Classes abstraites et polymorphisme           & \texttt{abstract}, \texttt{@Override} \\
+      5  & Collections Java -- Gestion des employés     & Set, Map, List, Iterator \\
+      6  & Exceptions personnalisées -- Banque           & \texttt{try/catch}, \texttt{throw} \\
+      7  & Threads et synchronisation -- DAB            & \texttt{synchronized}, \texttt{wait} \\
+      9  & Gestion des fichiers et flux                 & IO, Sérialisation \\
+      10 & Interfaces graphiques et base de données     & Swing, JDBC \\
+      11 & Opérations CRUD avancées -- Swing \& JDBC   & INSERT, SELECT, UPDATE, JDBC \\
+      \bottomrule
+    \end{tabularx}
+    \vspace{4pt}
+    {\footnotesize\color{grisTexte}\textit{Note : Le TP~8 n'a pas été réalisé dans le cadre de ce module.}}
+  \end{mdframed}
+
+  \vfill
+  {\small\color{gray}Document généré le \today}
+\end{titlepage}
+
+% ─── Table des matières ─────────────────────────────────────────────────────
+\setcounter{tocdepth}{2}
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 1 : Concepts de base
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{1}{Concepts de Base de la Programmation Java}
+
+\objectif{Maîtriser les instructions fondamentales de Java : boucles
+(\texttt{while}, \texttt{for}), instructions de contrôle (\texttt{continue},
+\texttt{switch}), méthodes et définition de la première classe orientée objet.}
+
+% ── Exercice 1 ──────────────────────────────────────────────────────────────
+\section{Exercice 1 -- Somme des parties entières}
+
+\enonce{Écrire un programme qui demande à l'utilisateur une série de nombres
+réels (arrêt sur 0) et affiche la somme des parties entières.}
+
+\screenshot{Screenshot 2026-05-03 155327.png}{Code Java -- Somme des parties entières et résultat d'exécution}
+
+\observation{La méthode \texttt{Integer.parseInt()} tronque la partie décimale
+sans arrondir. Un appel avec \texttt{"3.7"} lève une
+\texttt{NumberFormatException} ; il faut d'abord passer par
+\texttt{Double.parseDouble()} puis caster en \texttt{int} pour extraire
+correctement la partie entière.}
+
+\note{La condition d'arrêt \texttt{while(!line.equals("0"))} suppose une saisie
+exactement égale à \texttt{"0"}. Une amélioration serait d'utiliser
+\texttt{Double.parseDouble(line) == 0} pour accepter \texttt{"0.0"},
+\texttt{"0.00"}, etc.}
+
+\probleme{Lors de la première version, \texttt{Integer.parseInt()} était utilisé
+directement sur la saisie, levant une \texttt{NumberFormatException} pour tout
+nombre décimal. La solution a été de passer d'abord par \texttt{Double.parseDouble()},
+puis de caster en \texttt{int} pour obtenir la partie entière sans erreur.}
+
+% ── Exercice 2 ──────────────────────────────────────────────────────────────
+\section{Exercice 2 -- Carrés avec \texttt{continue}}
+
+\enonce{Afficher le carré des entiers de $-3$ à $+3$ en utilisant
+l'instruction \texttt{continue}.}
+
+\screenshot{Screenshot 2026-05-03 160201.png}{Code Java -- Carrés avec \texttt{continue} et résultat d'exécution}
+
+\observation{L'instruction \texttt{continue} interrompt l'itération courante et
+passe directement à la suivante. Elle exclut ici $n = 0$ du calcul du carré,
+illustrant son rôle dans le contrôle de flux sans bloc \texttt{if/else} imbriqué.}
+
+\note{Le carré de $0$ vaut $0$ -- son exclusion n'a aucun impact mathématique
+ici. L'exercice vise uniquement à pratiquer syntaxiquement le mot-clé
+\texttt{continue}.}
+
+% ── Exercice 3 ──────────────────────────────────────────────────────────────
+\section{Exercice 3 -- Racines carrées des entiers pairs}
+
+\enonce{Afficher la racine carrée des entiers pairs de 0 à 10 inclus.}
+
+\screenshot{Screenshot 2026-05-03 160302.png}{Code Java -- Racines carrées des pairs et résultat d'exécution}
+
+\observation{L'incrémentation \texttt{i += 2} garantit de ne parcourir que les
+entiers pairs, plus efficace qu'un test \texttt{if (i \% 2 == 0)} à chaque
+itération. \texttt{Math.sqrt()} retourne un \texttt{double}, adapté aux
+résultats irrationnels comme $\sqrt{2} \approx 1{,}414$.}
+
+% ── Exercice 4 ──────────────────────────────────────────────────────────────
+\section{Exercice 4 -- Factorielle}
+
+\enonce{Calculer la factorielle d'un entier saisi par l'utilisateur et
+afficher le résultat.}
+
+\screenshot{Screenshot 2026-05-03 160408.png}{Code Java -- Calcul de la factorielle et résultat d'exécution}
+
+\observation{Le type \texttt{int} (32 bits) déborde à partir de $n \geq 13$ :
+$13! = 6\,227\,020\,800$ dépasse \texttt{Integer.MAX\_VALUE}. Pour de grandes
+valeurs, il faut recourir à \texttt{long} ou \texttt{BigInteger}.}
+
+\erreurFrequente{Initialiser \texttt{result = 0} au lieu de \texttt{result = 1}
+retourne systématiquement $0$. L'élément neutre de la multiplication est $1$,
+pas $0$.}
+
+\probleme{L'accumulateur initialisé à \texttt{0} donnait toujours $0$ en sortie.
+En comprenant que la multiplication nécessite l'élément neutre $1$ pour démarrer,
+l'initialisation a été corrigée et le programme a fonctionné correctement.}
+
+% ── Exercice 5 ──────────────────────────────────────────────────────────────
+\section{Exercice 5 -- Calculatrice avec \texttt{switch}}
+
+\enonce{En utilisant l'instruction de choix multiples \texttt{switch}, écrire un
+programme qui initialise trois valeurs et calcule le résultat selon
+l'opérateur \texttt{(+, -, *)} saisi par l'utilisateur.}
+
+\screenshot{Screenshot 2026-05-03 160521.png}{Code Java -- Calculatrice avec \texttt{switch} et résultat d'exécution}
+
+\observation{Java 14+ introduit la syntaxe \texttt{switch} avec les flèches
+(\texttt{->}), supprimant la nécessité du \texttt{break} et améliorant la
+lisibilité. Le code présenté utilise déjà cette syntaxe moderne.}
+
+\note{La division par zéro n'est pas gérée dans cet exercice. En situation
+réelle, un test \texttt{if (b == 0 \&\& operator.equals("/"))} devrait être
+ajouté avant toute division pour éviter une \texttt{ArithmeticException}.}
+
+\probleme{Lors des premiers tests, une division par zéro levait une
+\texttt{ArithmeticException} sans message explicite. Après ajout d'une
+vérification préalable de l'opérande, un message métier clair est affiché à
+l'utilisateur.}
+
+% ── Exercice 6 ──────────────────────────────────────────────────────────────
+\section{Exercice 6 -- Classe \texttt{Produit}}
+
+\enonce{Implémenter la classe \texttt{Produit} avec les attributs
+\texttt{Code}, \texttt{Intitulé}, \texttt{Prix} et \texttt{Marque}, deux
+constructeurs, des accesseurs, une méthode \texttt{afficher()}, une méthode
+\texttt{augmenter(M)} (M $\leq$ 5\,\% du prix) et une méthode
+\texttt{diminuer(N\%)} (uniquement si prix $> 1\,000$ DH). Créer deux
+instances P1 et P2 dans un programme principal.}
+
+\screenshot{Screenshot 2026-05-03 160731.png}{Classe \texttt{Produit} -- attributs et constructeurs}
+\screenshot{Screenshot 2026-05-03 160745.png}{Classe \texttt{Produit} -- méthodes \texttt{augmenter} et \texttt{diminuer}}
+\screenshot{Screenshot 2026-05-03 160756.png}{Programme principal -- création de P1, P2 et résultat d'exécution}
+
+\observation{La classe \texttt{Produit} illustre le principe
+d'\textbf{encapsulation} : les méthodes \texttt{augmenter} et \texttt{diminuer}
+contrôlent les modifications selon des règles métier précises -- augmentation
+limitée à 5\,\%, prix minimum de 1\,000 DH pour la réduction -- empêchant
+toute modification incohérente depuis l'extérieur.}
+
+\conclusionTP{Ce premier TP a consolidé les bases essentielles de Java : syntaxe
+des boucles (\texttt{while}, \texttt{for}), instructions de contrôle
+(\texttt{continue}, \texttt{switch}), calculs numériques, et première définition
+d'une classe avec constructeurs, accesseurs et méthodes métier. Ces fondamentaux
+sont indispensables pour aborder la programmation orientée objet.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 2 : Tableaux, chaînes, méthodes
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{2}{Tableaux, Chaînes de Caractères et Méthodes}
+
+\objectif{Maîtriser la gestion des tableaux à taille fixe, la manipulation
+des chaînes de caractères (\texttt{toUpperCase}, \texttt{replace}), et la
+définition de méthodes statiques utilitaires.}
+
+\section{Exercice 1 -- Traitement de texte avec \texttt{switch}}
+
+\enonce{Demander à l'utilisateur un texte T et un mot A. Utiliser
+\texttt{switch} pour : supprimer les occurrences d'\texttt{"UNIVERSITE"},
+remplacer \texttt{"FACULTE"} par \texttt{"UNIVERSITE"}, insérer
+\texttt{"ECOLE"} à la fin, ou afficher \textit{"Opération non reconnue"}.}
+
+\screenshot{Screenshot 2026-05-03 161020.png}{Code -- Traitement de texte avec \texttt{switch} et résultat d'exécution}
+
+\observation{L'appel \texttt{toUpperCase()} sur la saisie \texttt{a} normalise
+la comparaison dans le \texttt{switch}, rendant le programme insensible à la
+casse. \texttt{String.replace()} retourne une \emph{nouvelle} chaîne (les
+\texttt{String} Java sont immuables) -- le résultat doit être réassigné à
+\texttt{t}.}
+
+\probleme{La première version était sensible à la casse : \texttt{"majuscule"}
+ne correspondait pas à \texttt{"MAJUSCULE"}. En appliquant \texttt{toUpperCase()}
+avant la comparaison dans le \texttt{switch}, le problème a été résolu de façon
+élégante.}
+
+\section{Exercice 2 -- Tableau d'entiers}
+
+\enonce{Écrire une méthode statique \texttt{afficherTableau} prenant un
+tableau d'entiers en paramètre et affichant ses éléments. Dans
+\texttt{main}, demander la taille, saisir les valeurs, puis appeler la méthode.}
+
+\screenshot{Screenshot 2026-05-03 161122.png}{Code -- Saisie et affichage d'un tableau via méthode statique}
+
+\observation{Déclarer \texttt{afficherTableau} comme \texttt{static} permet
+de l'appeler sans instancier la classe, pratique recommandée pour les méthodes
+utilitaires ne dépendant d'aucun état d'objet.}
+
+\note{Les tableaux Java ont une taille fixe définie à la création. Pour des
+collections de taille variable, \texttt{ArrayList<Integer>} est préférable.}
+
+\section{Exercice 3 -- Classe \texttt{Etudiant}}
+
+\enonce{Implémenter la classe \texttt{Etudiant} (attributs privés
+\texttt{id}, \texttt{nom}, \texttt{note} ; deux constructeurs ; getters/setters ;
+\texttt{toString()} ; \texttt{equals()} basé sur \texttt{id + nom + note}).
+Dans \texttt{main}, saisir $n$ étudiants, calculer la moyenne via
+\texttt{calculerMoyenne()}, et comparer deux étudiants avec \texttt{equals()}.}
+
+\screenshot{Screenshot 2026-05-03 161348.png}{Classe \texttt{Etudiant} -- définition, \texttt{toString} et \texttt{equals}}
+\screenshot{Screenshot 2026-05-03 161439.png}{Programme principal -- saisie, moyenne et comparaison d'étudiants}
+
+\observation{La redéfinition de \texttt{toString()} permet l'affichage direct
+via \texttt{System.out.println(objet)}. En pratique, redéfinir aussi
+\texttt{hashCode()} est recommandé pour respecter le contrat général de Java
+lorsqu'on redéfinit \texttt{equals()}.}
+
+\erreurFrequente{Utiliser \texttt{==} pour comparer deux \texttt{String} compare
+les références mémoire, pas le contenu. Il faut toujours utiliser \texttt{.equals()}
+pour les comparaisons de chaînes.}
+
+\probleme{Dans \texttt{equals()}, les champs \texttt{String} étaient comparés
+avec \texttt{==}, retournant \texttt{false} même pour des étudiants identiques.
+Remplacer \texttt{==} par \texttt{.equals()} a immédiatement corrigé l'erreur.}
+
+\conclusionTP{Ce TP a consolidé la manipulation des tableaux à taille fixe, les
+méthodes statiques utilitaires, et l'enrichissement d'une classe via
+\texttt{toString()} et \texttt{equals()}. La notion d'immuabilité des
+\texttt{String} en Java a été mise en pratique concrètement.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 3 : Héritage simple
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{3}{Héritage Simple -- Gestion Immobilière}
+
+\objectif{Définir une hiérarchie de classes par héritage simple, utiliser
+\texttt{super()} pour appeler le constructeur parent, surcharger
+\texttt{calculeValeurLocative()} dans chaque sous-classe selon les règles
+métier spécifiées.}
+
+\section{Classe de base \texttt{BienImmobilier}}
+
+\enonce{Définir la classe \texttt{BienImmobilier} avec les attributs
+\texttt{adresse}, \texttt{surface}, \texttt{prixAchat} et
+\texttt{valeurLocativeEstimee}. Fournir un constructeur (3 paramètres),
+une méthode \texttt{affiche()}, et une méthode
+\texttt{calculeValeurLocative()} fixant la valeur à $0{,}5\,\%$ du prix
+d'achat par m².}
+
+\screenshot{Screenshot 2026-05-03 161643.png}{Classe \texttt{BienImmobilier} -- attributs, constructeur et \texttt{calculeValeurLocative}}
+
+\observation{La classe \texttt{BienImmobilier} définit le comportement commun à
+tous les biens. La méthode \texttt{calculeValeurLocative()} est conçue pour être
+redéfinie (\textit{overridden}) par les sous-classes, posant les fondations du
+polymorphisme.}
+
+\section{Classe \texttt{Maison}}
+
+\enonce{Classe héritant de \texttt{BienImmobilier} avec \texttt{nbPieces},
+\texttt{surfaceJardin} et \texttt{piscine}. Redéfinir
+\texttt{calculeValeurLocative()} : base $= 0{,}5\,\% \times$ prix/m²,
+$+10\,\%$ si jardin $> 50$ m², $+20\,\%$ si piscine.}
+
+\screenshot{Screenshot 2026-05-03 161714.png}{Classe \texttt{Maison} héritant de \texttt{BienImmobilier} et redéfinissant \texttt{calculeValeurLocative}}
+
+\observation{La classe \texttt{Maison} appelle
+\texttt{super.calculeValeurLocative()} avant d'appliquer ses facteurs
+multiplicatifs (jardin $\times 1{,}1$, piscine $\times 1{,}2$). Ce chaînage
+évite la duplication de code et respecte le principe \textit{Open/Closed}.}
+
+\section{Classe \texttt{LocalCommercial}}
+
+\enonce{Classe héritant de \texttt{BienImmobilier} avec \texttt{typeCommerce} ,
+\texttt{locationMeublee} et \texttt{loyerMensuel}. Redéfinir
+\texttt{calculeValeurLocative()} : base $= 0{,}8\,\% \times$ prix/m²,
+$+15\,\%$ si meublé, $+5\,\%$ si Boutique, $-10\,\%$ si Entrepôt.
+Résultat $\geq 0$.}
+
+\screenshot{Screenshot 2026-05-03 161802.png}{Classe \texttt{LocalCommercial} -- calcul spécifique de la valeur locative}
+
+\observation{\texttt{LocalCommercial} recalcule entièrement sa valeur avec un
+taux différent (0,8\,\% vs 0,5\,\%). La garde \texttt{if (valeurEst < 0)}
+protège contre un résultat négatif causé par des combinaisons de coefficients
+défavorables, conformément à la contrainte du sujet.}
+
+\section{Classe de test \texttt{TestImmobilier}}
+
+\enonce{Demander à l'utilisateur les informations pour une maison et un local
+commercial, créer les objets, calculer leur valeur locative et afficher leur
+état complet via \texttt{affiche()}.}
+
+\screenshot{Screenshot 2026-05-03 161821.png}{Classe \texttt{TestImmobilier} -- saisie utilisateur, calcul et affichage}
+
+\note{Dans le programme de test, les attributs sont accédés directement (sans
+setter) car leur modificateur d'accès est package-private par défaut. La bonne
+pratique serait de les déclarer \texttt{private} et d'utiliser des constructeurs
+paramétrés complets avec setters.}
+
+\probleme{En omettant l'appel \texttt{super(...)} dans les constructeurs des
+sous-classes, la compilation échouait car la classe parente ne possédait pas
+de constructeur sans argument. En ajoutant systématiquement
+\texttt{super(...)} en première instruction de chaque constructeur fils, le
+problème a été résolu.}
+
+\conclusionTP{Ce TP a mis en pratique le mécanisme fondamental de l'héritage :
+la relation «~est-un~», l'appel \texttt{super()}, et la redéfinition de
+méthodes. La hiérarchie
+\texttt{BienImmobilier} $\to$ \texttt{Maison} / \texttt{LocalCommercial}
+démontre comment factoriser le comportement commun tout en spécialisant le
+comportement propre à chaque type de bien.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 4 : Classes abstraites et polymorphisme
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{4}{Classes Abstraites et Polymorphisme -- Gestion de Flotte}
+
+\objectif{Définir une classe abstraite \texttt{Vehicule} avec méthodes
+abstraites et concrètes, créer deux classes concrètes
+(\texttt{VehiculeThermique}, \texttt{VehiculeElectrique}), et exploiter
+le polymorphisme par substitution dans une liste unique de véhicules.}
+
+\section{Classe abstraite \texttt{Vehicule}}
+
+\enonce{Créer la classe abstraite \texttt{Vehicule} avec les attributs
+privés \texttt{immatriculation}, \texttt{capacite} et
+\texttt{consommationBase}, un constructeur paramétré, les méthodes abstraites
+\texttt{calculerAutonomie()} et \texttt{calculerEfficacite()}, et les
+getters/setters.}
+
+\screenshot{Screenshot 2026-05-03 162150.png}{Classe abstraite \texttt{Vehicule} -- attributs, constructeur et méthodes abstraites}
+
+\observation{Déclarer \texttt{Vehicule} comme \texttt{abstract} empêche son
+instanciation directe et impose à toute sous-classe concrète d'implémenter
+\texttt{calculerAutonomie()} et \texttt{calculerEfficacite()}. Les champs
+\texttt{private} avec accesseurs respectent l'encapsulation.}
+
+\section{Classe \texttt{VehiculeThermique}}
+
+\enonce{Créer \texttt{VehiculeThermique} héritant de \texttt{Vehicule},
+avec \texttt{niveauCarburant}, \texttt{typeCarburant} et \texttt{cylindree}.
+Formules : Autonomie $= \frac{\text{niveauCarburant} \times 100}{\text{consommationBase}}$,
+Efficacité $= \frac{\text{capacité} \times 100}{\text{consommationBase} \times \text{cylindree}/1000}$,
+Pollution $= \text{consommationBase} \times \text{cylindree} \times 0{,}02$.}
+
+\screenshot{Screenshot 2026-05-03 162227.png}{Classe \texttt{VehiculeThermique} -- implémentation des méthodes et \texttt{calculerPollution}}
+
+\observation{La méthode \texttt{calculerPollution()} est propre à
+\texttt{VehiculeThermique} et n'appartient pas au contrat abstrait. Cela montre
+qu'une sous-classe peut ajouter ses propres comportements spécialisés
+au-delà du contrat imposé par la classe parente.}
+
+\section{Classe \texttt{VehiculeElectrique}}
+
+\enonce{Créer \texttt{VehiculeElectrique} héritant de \texttt{Vehicule},
+avec \texttt{niveauBatterie}, \texttt{tempsRecharge} et
+\texttt{capaciteBatterie}. Formules : Autonomie $= \frac{\text{niveauBatterie} \times 100}{\text{consommationBase} \times 0{,}8}$,
+Efficacité $= \frac{\text{capacité} \times \text{autonomie}}{\text{capacitéBatterie} \times \text{tempsRecharge}/60}$,
+TempsRechargeRéel $= \text{tempsRecharge} \times (1 - \frac{\text{niveauBatterie}}{\text{capacitéBatterie}})$.}
+
+\screenshot{Screenshot 2026-05-03 162328.png}{Classe \texttt{VehiculeElectrique} -- implémentation des méthodes et \texttt{calculerTempsRechargeReel}}
+
+\observation{\texttt{VehiculeElectrique} dispose de
+\texttt{calculerTempsRechargeReel()}, méthode sans équivalent thermique,
+illustrant qu'une sous-classe peut encapsuler ses propres règles métier
+au-delà du contrat abstrait.}
+
+\section{Programme de test -- \texttt{GestionTransport}}
+
+\enonce{Créer une classe \texttt{GestionTransport} avec \texttt{main()} :
+créer 3 véhicules de chaque type, afficher leurs métriques, identifier le
+thermique le moins polluant, calculer les autonomies moyennes, créer une
+liste unique de tous les véhicules et simuler un trajet de 200 km pour
+chacun.}
+
+\screenshot{Screenshot 2026-05-03 162433.png}{Programme de test -- liste polymorphique et affichage des métriques thermiques}
+\screenshot{Screenshot 2026-05-03 162506.png}{Programme de test -- métriques des véhicules électriques et comparaison}
+\screenshot{Screenshot 2026-05-03 162521.png}{Programme de test -- résultats d'exécution complets}
+
+\observation{Le programme stocke des objets de types concrets dans une
+\texttt{List<Vehicule>} : c'est le polymorphisme par substitution. L'appel de
+\texttt{v.calculerAutonomie()} est résolu dynamiquement à l'exécution
+(\textit{late binding}), selon le type réel de l'objet.}
+
+\note{La recherche du véhicule thermique le moins polluant utilise une liste
+filtrée de type \texttt{List<VehiculeThermique>}, car \texttt{calculerPollution()}
+n'est pas déclarée dans \texttt{Vehicule}.}
+
+\probleme{Depuis la liste de type \texttt{List<Vehicule>}, appeler directement
+\texttt{calculerPollution()} provoquait une erreur de compilation car le
+compilateur ne connaît que le type déclaré. La solution a été de filtrer d'abord
+avec \texttt{instanceof}, puis d'effectuer le cast avant l'appel.}
+
+\conclusionTP{Ce TP approfondit le polymorphisme via les classes abstraites.
+La distinction entre méthodes abstraites (contrat imposé) et méthodes concrètes
+(comportement hérité) est fondamentale. Le pattern «~liste de type parent,
+objets de types enfants~» est l'un des plus utilisés en Java.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 5 : Collections Java
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{5}{Collections Java -- Gestion des Employés}
+
+\objectif{Manipuler \texttt{HashSet}, \texttt{TreeSet},
+\texttt{LinkedHashSet}, \texttt{ArrayList}, \texttt{HashMap},
+\texttt{Hashtable} ; utiliser \texttt{Iterator} et \texttt{Enumeration} ;
+comparer les performances ; convertir entre collections et tableaux.}
+
+\section{Classe \texttt{Employe}}
+
+\enonce{Créer la classe \texttt{Employe} avec les attributs \texttt{id}
+(\texttt{int}), \texttt{nom}, \texttt{departement} (\texttt{String}) et
+\texttt{salaire} (\texttt{double}). Ajouter : constructeur complet,
+getters/setters, \texttt{toString()} formaté, \texttt{equals()} basé sur
+\texttt{id}, et implémenter \texttt{Comparable<Employe>} pour trier par
+\texttt{id}.}
+
+\screenshot{Screenshot 2026-05-03 162849.png}{Classe \texttt{Employe} -- implémentation de \texttt{Comparable} et \texttt{equals}}
+
+\observation{L'implémentation de \texttt{Comparable<Employe>} est obligatoire
+pour que \texttt{TreeSet} puisse trier automatiquement les employés. Sans elle,
+une \texttt{ClassCastException} serait levée à la première insertion. La
+redéfinition d'\texttt{equals()} basée sur \texttt{id} garantit l'unicité dans
+les \texttt{Set}.}
+
+\probleme{À la première insertion dans un \texttt{TreeSet<Employe>}, une
+\texttt{ClassCastException} était levée car la classe n'implémentait pas
+\texttt{Comparable}. L'ajout de \texttt{implements Comparable<Employe>} et de
+la méthode \texttt{compareTo()} a résolu le problème.}
+
+\section{Classe principale \texttt{GestionEmployes}}
+
+\enonce{Dans \texttt{GestionEmployes} : créer un \texttt{HashSet} de 5
+employés, le copier dans un \texttt{TreeSet}, mesurer les performances
+d'affichage, créer un \texttt{LinkedHashSet} fusion des deux, convertir en
+tableau, puis répartir dans \texttt{ArrayList} (salaire $> 5\,000$ DH) et
+\texttt{Hashtable} (salaire $\leq 5\,000$ DH). Parcourir avec
+\texttt{Iterator} et \texttt{Enumeration}. Copier dans \texttt{HashMap} et
+comparer les performances \texttt{Hashtable} vs \texttt{HashMap}.}
+
+\screenshot{Screenshot 2026-05-03 162922.png}{\texttt{GestionEmployes} -- initialisation des différentes collections}
+\screenshot{Screenshot 2026-05-03 162942.png}{\texttt{GestionEmployes} -- parcours avec \texttt{Iterator} et \texttt{Enumeration}}
+\screenshot{Screenshot 2026-05-03 163005.png}{\texttt{GestionEmployes} -- utilisation de \texttt{HashMap} et \texttt{Hashtable}}
+\screenshot{Screenshot 2026-05-03 163023.png}{\texttt{GestionEmployes} -- test de performance et résultats}
+
+\observation{Le test avec \texttt{System.nanoTime()} montre que \texttt{HashSet}
+est généralement plus rapide que \texttt{TreeSet} (pas de maintien d'ordre).
+\texttt{Hashtable} est thread-safe mais plus lente que \texttt{HashMap} en
+mono-thread en raison de sa synchronisation inhérente.}
+
+\note{%
+Tableau récapitulatif des collections utilisées dans ce TP :\\[6pt]
+\begin{tabular}{@{}lllc@{}}
+\toprule
+\textbf{Collection} & \textbf{Ordre} & \textbf{Doublons} & \textbf{Thread-safe} \\
+\midrule
+\texttt{HashSet}       & Non garanti    & Non & Non \\
+\texttt{TreeSet}       & Trié (naturel) & Non & Non \\
+\texttt{LinkedHashSet} & Insertion      & Non & Non \\
+\texttt{ArrayList}     & Insertion      & Oui & Non \\
+\texttt{HashMap}       & Non garanti    & Clés : Non & Non \\
+\texttt{Hashtable}     & Non garanti    & Clés : Non & Oui \\
+\bottomrule
+\end{tabular}
+}
+
+\conclusionTP{Ce TP a permis de comparer concrètement les principales structures
+du framework Java Collections. Le choix d'une collection dépend du besoin :
+ordre d'insertion, tri naturel, unicité, accès par clé, ou sécurité multi-thread.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 6 : Exceptions personnalisées
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{6}{Exceptions Personnalisées -- Système Bancaire}
+
+\objectif{Comprendre la hiérarchie des exceptions Java, créer une hiérarchie
+d'exceptions personnalisées cohérente (\texttt{BanqueException} et cinq
+sous-exceptions métier), et les utiliser dans une classe
+\texttt{CompteBancaire} robuste.}
+
+\section{Hiérarchie des exceptions bancaires}
+
+\enonce{Créer \texttt{BanqueException} héritant d'\texttt{Exception}, puis
+cinq sous-classes : \texttt{SoldeInsuffisantException},
+\texttt{CompteInexistantException}, \texttt{MontantInvalideException},
+\texttt{DecouvertMaximumDepasseException} et \texttt{CompteBloqueException}.}
+
+\screenshot{Screenshot 2026-05-17 143606.png}{\texttt{BanqueException} -- classe mère des exceptions personnalisées}
+\screenshot{Screenshot 2026-05-17 143621.png}{\texttt{SoldeInsuffisantException} et \texttt{CompteInexistantException}}
+\screenshot{Screenshot 2026-05-17 143637.png}{\texttt{MontantInvalideException} et \texttt{DecouvertMaximumDepasseException}}
+\screenshot{Screenshot 2026-05-17 143653.png}{\texttt{CompteBloqueException}}
+\screenshot{Screenshot 2026-05-17 143705.png}{Vue d'ensemble de la hiérarchie d'exceptions}
+\screenshot{Screenshot 2026-05-17 143724.png}{Tests de la hiérarchie d'exceptions}
+
+\observation{Toutes les exceptions héritent de \texttt{BanqueException}
+(elle-même héritière d'\texttt{Exception}). Un bloc
+\texttt{catch(BanqueException e)} peut ainsi intercepter toutes les
+sous-exceptions, offrant une gestion hiérarchique flexible.}
+
+\note{%
+La hiérarchie comprend cinq exceptions métier :
+\begin{itemize}[leftmargin=1.5cm, itemsep=2pt]
+  \item \texttt{SoldeInsuffisantException} -- retrait supérieur au solde disponible
+  \item \texttt{CompteInexistantException} -- compte introuvable dans le registre
+  \item \texttt{MontantInvalideException} -- montant négatif ou nul
+  \item \texttt{DecouvertMaximumDepasseException} -- découvert autorisé dépassé
+  \item \texttt{CompteBloqueException} -- opération sur un compte bloqué
+\end{itemize}
+}
+
+\section{Classe \texttt{CompteBancaire}}
+
+\enonce{Implémenter \texttt{CompteBancaire} avec les attributs
+\texttt{numeroCompte}, \texttt{titulaire}, \texttt{solde},
+\texttt{decouvertAutorise}, \texttt{bloque}, \texttt{dateCreation} et
+\texttt{historiqueOperations} (\texttt{ArrayList<String>}). Créer les
+méthodes : \texttt{deposer()}, \texttt{retirer()},
+\texttt{transferer()}, \texttt{afficherHistorique()},
+\texttt{ajouterCompte()}, \texttt{getCompte()},
+\texttt{effectuerVirement()} et \texttt{afficherTousLesComptes()}.}
+
+\screenshot{Screenshot 2026-05-17 142718.png}{\texttt{CompteBancaire} -- attributs, constructeur et registre statique des comptes}
+\screenshot{Screenshot 2026-05-17 142734.png}{\texttt{CompteBancaire} -- méthode \texttt{deposer()} avec validation}
+\screenshot{Screenshot 2026-05-17 142756.png}{\texttt{CompteBancaire} -- méthode \texttt{retirer()} avec gestion complète des exceptions}
+\screenshot{Screenshot 2026-05-17 142820.png}{\texttt{CompteBancaire} -- méthode \texttt{effectuerVirement()} et journalisation}
+\screenshot{Screenshot 2026-05-17 142837.png}{\texttt{CompteBancaire} -- méthodes utilitaires et \texttt{toString()}}
+
+\observation{Le registre statique \texttt{listeTousLesComptes} centralise tous
+les comptes créés, permettant la recherche par numéro depuis n'importe quel
+point du programme. La méthode \texttt{effectuerVirement()} délègue à
+\texttt{retirer()} et \texttt{deposer()}, réutilisant la gestion des exceptions
+déjà en place -- c'est le principe DRY (\textit{Don't Repeat Yourself}).}
+
+\erreurFrequente{Lancer une exception \textit{checked} (héritant d'
+\texttt{Exception}) sans la déclarer avec \texttt{throws} dans la signature,
+ni la capturer avec \texttt{catch}, provoque une erreur de compilation.
+Elle doit être soit gérée localement, soit propagée explicitement.}
+
+\probleme{Lors de l'implémentation d'\texttt{effectuerVirement()}, l'oubli de
+la clause \texttt{throws BanqueException} dans la signature empêchait la
+compilation. En propageant correctement les exceptions via \texttt{throws},
+le compilateur a accepté le code et la gestion s'est faite au niveau du
+programme principal.}
+
+\section{Programme principal -- \texttt{GestionCompteBancaire}}
+
+\enonce{Dans \texttt{main()} : ajouter 3 comptes, tenter d'ajouter un
+numéro existant, faire des dépôts/retraits, effectuer un virement, tester
+tous les cas d'erreur (solde insuffisant, montant négatif, compte inexistant,
+compte bloqué).}
+
+\screenshot{Screenshot 2026-05-17 144059.png}{Programme principal -- tests de toutes les opérations bancaires et gestion des exceptions}
+
+\conclusionTP{Ce TP démontre la valeur des exceptions personnalisées pour
+produire des messages d'erreur métier précis. La séparation entre logique de
+validation (\texttt{CompteBancaire}) et programme principal simplifie la
+maintenance et améliore la robustesse du système bancaire.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 7 : Threads et synchronisation
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{7}{Threads et Synchronisation -- Distributeur Automatique de Billets}
+
+\objectif{Maîtriser la création et la gestion des threads Java, comprendre
+les conditions de course (\textit{race conditions}) en accès concurrent, et
+utiliser \texttt{synchronized}, \texttt{wait()} et \texttt{notifyAll()} pour
+protéger les ressources partagées.}
+
+\section{Partie 1 -- Sans synchronisation : mise en évidence du problème}
+
+\enonce{Créer une classe \texttt{Distributeur} (fonds = 5\,000 DH) avec
+une méthode \texttt{retirer(montant, nomClient)} incluant un
+\texttt{Thread.sleep(2000)} pour simuler le traitement. Créer la classe
+\texttt{Client} (\texttt{Runnable}) effectuant $n$ retraits en boucle.
+Dans \texttt{Main} : deux clients \texttt{Ahmed} et \texttt{Amal},
+chacun tente 3 retraits de 3\,000 DH. Observer les incohérences.}
+
+\screenshot{Screenshot 2026-05-17 145750.png}{\texttt{Distributeur} non synchronisé -- vérification et retrait sans protection}
+\screenshot{Screenshot 2026-05-17 145807.png}{Classe \texttt{Client} (\texttt{Runnable}) et classe \texttt{Main} de lancement}
+\screenshot{Screenshot 2026-05-17 145828.png}{Résultat d'exécution -- condition de course : solde négatif observé}
+
+\observation{Sans synchronisation, une \textbf{condition de course}
+(\textit{race condition}) survient : les deux threads lisent simultanément
+\texttt{fonds = 5\,000}, croient tous les deux avoir assez, et retirent
+chacun 3\,000 DH, portant le solde à $-1\,000$ DH. Le
+\texttt{Thread.sleep(2000)} amplifie intentionnellement ce problème en
+simulant un délai entre vérification et débit.}
+
+\erreurFrequente{Lire une variable partagée puis la modifier en deux
+instructions distinctes sans section critique crée systématiquement des
+incohérences en environnement multi-thread. Ce n'est pas une opération
+atomique.}
+
+\probleme{En exécutant la version non synchronisée plusieurs fois, le solde
+final variait à chaque exécution (tantôt $-1\,000$ DH, tantôt $+2\,000$ DH,
+tantôt $+5\,000$ DH). Ce comportement non déterministe a permis de comprendre
+concrètement ce qu'est une condition de course.}
+
+\section{Partie 2 -- Avec synchronisation : solution correcte}
+
+\enonce{Créer \texttt{DistributeurSecurise} avec une méthode
+\texttt{synchronized retirer()} utilisant \texttt{while + wait()} et une
+méthode \texttt{synchronized deposer()} avec \texttt{notifyAll()}. Créer
+\texttt{ClientOperation} (\texttt{Runnable}). Dans \texttt{MainSecurise} :
+Ahmed (3 retraits de 3\,000 DH), Amal (2 dépôts de 2\,000 DH + 1 retrait
+de 3\,000 DH), et un thread démon afficheur toutes les 3 secondes.}
+
+\screenshot{Screenshot 2026-05-17 150146.png}{\texttt{DistributeurSecurise} -- méthodes \texttt{retirer()} et \texttt{deposer()} synchronisées}
+\screenshot{Screenshot 2026-05-17 150203.png}{Classe \texttt{ClientOperation} et thread démon afficheur}
+\screenshot{Screenshot 2026-05-17 150226.png}{Résultat d'exécution -- solde cohérent garanti par la synchronisation}
+
+\observation{L'utilisation de \texttt{while (fonds < montant) \{ wait(); \}}
+est préférable à \texttt{if} car un thread peut être réveillé par
+\texttt{notifyAll()} sans que la condition soit réellement satisfaite
+(\textit{spurious wakeup}). La boucle \texttt{while} force une
+re-vérification systématique.}
+
+\note{Le thread \texttt{afficheur} est déclaré \texttt{daemon} : il se termine
+automatiquement quand tous les threads non-daemon ont terminé, évitant tout
+blocage indéfini du programme.}
+
+\probleme{Dans la première implémentation synchronisée, \texttt{if} était
+utilisé à la place de \texttt{while} dans la condition d'attente. Le thread
+se réveillait parfois alors que les fonds étaient toujours insuffisants,
+provoquant des retraits incorrects. Remplacer \texttt{if} par \texttt{while}
+a résolu le problème en forçant une re-vérification à chaque réveil.}
+
+\conclusionTP{Ce TP illustre deux réalités fondamentales de la concurrence :
+(1)~l'absence de synchronisation produit des résultats imprévisibles ;
+(2)~\texttt{synchronized} + \texttt{wait/notifyAll} constitue le mécanisme
+de base Java pour protéger les ressources partagées et coordonner les threads.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 9 : Gestion des fichiers et flux
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{9}{Gestion des Fichiers et Flux}
+
+\objectif{Maîtriser les trois niveaux d'accès aux fichiers en Java :
+(1)~fichiers texte avec \texttt{BufferedReader/PrintWriter},
+(2)~fichiers binaires typés avec \texttt{DataInputStream/DataOutputStream},
+(3)~persistance d'objets avec la sérialisation (\texttt{ObjectOutputStream}).}
+
+\section{Exercice 1 -- Catalogue produits (fichier texte)}
+
+\enonce{Créer un fichier \texttt{catalogue.txt}, y écrire une liste de
+produits (nom, prix unitaire), puis le lire et afficher son contenu sur la
+console.}
+
+\screenshot{Screenshot 2026-05-17 150625.png}{Code -- Écriture et lecture d'un catalogue texte avec \texttt{try-with-resources}}
+
+\observation{L'instruction \texttt{try-with-resources} (Java 7+) garantit la
+fermeture automatique des flux même en cas d'exception, éliminant les fuites
+de ressources. \texttt{PrintWriter} wrappé autour de \texttt{FileWriter} ajoute
+des méthodes de haut niveau comme \texttt{println()}.}
+
+\probleme{Sans fermeture explicite des flux, le fichier n'était pas entièrement
+écrit sur le disque (données encore en mémoire tampon). En adoptant
+\texttt{try-with-resources}, la fermeture et le vidage du tampon sont
+automatiquement garantis à la sortie du bloc.}
+
+\section{Exercice 2 -- Analyse CSV de commandes}
+
+\enonce{Lire un fichier \texttt{commandes.csv} contenant les colonnes
+\texttt{id\_commande, nom\_client, produit, quantite, prix\_unitaire},
+calculer le montant total de chaque commande (quantité $\times$ prix
+unitaire) et afficher les données dans un tableau formaté.}
+
+\screenshot{Screenshot 2026-05-17 150649.png}{Code -- Parsing CSV ligne par ligne et calcul des totaux par commande}
+
+\observation{\texttt{String.split(",")} suppose un séparateur virgule sans
+espace. L'appel à \texttt{.trim()} sur chaque colonne permet de gérer les
+espaces parasites. Pour des CSV complexes (guillemets, virgules dans les
+valeurs), une bibliothèque dédiée comme \textit{Apache Commons CSV} est
+préférable.}
+
+\section{Exercice 3 -- Copie de fichier texte (\texttt{CopieFichier})}
+
+\enonce{Programmer la classe \texttt{CopieFichier} qui copie
+\texttt{facture\_src.txt} vers \texttt{facture\_dest.txt} selon deux
+méthodes : (1)~caractère par caractère avec
+\texttt{FileReader/FileWriter}, (2)~ligne par ligne avec
+\texttt{BufferedReader/PrintWriter}. Afficher le contenu source et le nombre
+de lignes copiées.}
+
+\screenshot{Screenshot 2026-05-17 150908.png}{\texttt{CopieFichier} -- Méthode 1 : copie caractère par caractère (\texttt{FileReader/FileWriter})}
+\screenshot{Screenshot 2026-05-17 150944.png}{\texttt{CopieFichier} -- Méthode 2 : copie ligne par ligne (\texttt{BufferedReader/PrintWriter})}
+\screenshot{Screenshot 2026-05-17 150954.png}{Programme de test -- comparaison des deux méthodes et mesure du temps d'exécution}
+
+\observation{La copie caractère par caractère est nettement plus lente car elle
+effectue un appel système pour chaque caractère lu. La copie ligne par ligne,
+bufferisée, regroupe les lectures en blocs, ce qui apporte un gain de
+performance considérable sur de gros fichiers.}
+
+\note{Sur Windows, les fins de lignes sont \texttt{"\textbackslash r\textbackslash n"}.
+La détection de \texttt{'\textbackslash n'} seul peut donner un comptage inexact.
+\texttt{BufferedReader.readLine()} gère transparentement les deux formats.}
+
+\probleme{La copie caractère par caractère s'avérait environ 50 fois plus lente
+sur un fichier de 100 Ko. Ce résultat illustre concrètement l'importance du
+buffering : chaque \texttt{read()} sur un \texttt{FileReader} non bufferisé
+déclenche un appel système direct au disque.}
+
+\section{Exercice 4 -- Fichier binaire : \texttt{MultiplesReel}}
+
+\enonce{Créer la classe \texttt{MultiplesReel} (attribut \texttt{base}
+de type \texttt{double}). Méthode \texttt{ecrireMultiples(nomFichier, n)} :
+écrire les $n$ multiples de \texttt{base} (chaque couple : entier
+coefficient + double résultat). Méthode \texttt{lireEtAfficher(nomFichier)} :
+déduire la valeur de \texttt{base} et le nombre de multiples stockés.}
+
+\screenshot{Screenshot 2026-05-17 151447.png}{\texttt{MultiplesReel} -- écriture des couples (coefficient, multiple) avec \texttt{DataOutputStream}}
+\screenshot{Screenshot 2026-05-17 151501.png}{\texttt{MultiplesReel} -- lecture avec \texttt{DataInputStream} et déduction de \texttt{base}}
+
+\observation{Les fichiers binaires écrits avec \texttt{DataOutputStream}
+stockent les données dans un format compact non lisible par un éditeur de
+texte, mais portable entre toutes les plateformes Java (format \textit{big-endian}).
+Chaque \texttt{int} occupe 4 octets, chaque \texttt{double} 8 octets.}
+
+\erreurFrequente{L'ordre de lecture avec \texttt{DataInputStream} doit être
+\emph{exactement} identique à l'ordre d'écriture. Lire un \texttt{double} là
+où un \texttt{int} a été écrit produit des valeurs corrompues sans lever
+d'exception.}
+
+\probleme{Lors de la lecture, une tentative de lire un \texttt{double} avant
+l'\texttt{int} de coefficient produisait des valeurs aberrantes. L'ordre de
+lecture doit correspondre exactement à l'ordre d'écriture -- contrainte forte
+des flux binaires typés en Java.}
+
+\section{Exercice 5 -- Sérialisation d'objets : \texttt{Client}}
+
+\enonce{Créer la classe \texttt{Client} implémentant \texttt{Serializable}
+(attributs : \texttt{nom}, \texttt{prenom}, \texttt{adresse},
+\texttt{idClient}). Sauvegarder 3 clients dans \texttt{clients.ser} via
+\texttt{ObjectOutputStream}. Recharger depuis \texttt{clients.ser} et
+extraire les noms complets (\texttt{prenom + " " + nom}) dans un tableau
+de chaînes.}
+
+\screenshot{Screenshot 2026-05-17 151850.png}{Classe \texttt{Client} -- implémentation de \texttt{Serializable} et \texttt{serialVersionUID}}
+\screenshot{Screenshot 2026-05-17 151905.png}{Programme de sérialisation -- écriture dans \texttt{clients.ser} et relecture des noms complets}
+
+\observation{La constante \texttt{serialVersionUID = 1L} est une bonne pratique
+explicite : elle contrôle la compatibilité entre versions de la classe. Sans UID
+déclaré, Java en génère un automatiquement qui peut changer à chaque
+compilation, rendant les anciens fichiers \texttt{.ser} illisibles.}
+
+\note{La sérialisation Java est pratique mais présente des limites : elle est
+spécifique à Java, couplée à la structure interne de la classe, et peut poser
+des problèmes de sécurité. Pour les échanges inter-systèmes, JSON ou XML sont
+préférables.}
+
+\probleme{Lors des tests de désérialisation, une
+\texttt{InvalidClassException} était levée car la classe \texttt{Client} avait
+été modifiée entre l'écriture et la lecture du fichier. Java avait généré un
+UID différent. L'ajout explicite de
+\texttt{private static final long serialVersionUID = 1L} a stabilisé la
+compatibilité.}
+
+\conclusionTP{Ce TP a couvert les trois niveaux d'accès aux fichiers en Java :
+texte structuré (\texttt{BufferedReader/PrintWriter}), données binaires typées
+(\texttt{DataInputStream/DataOutputStream}), et persistance d'objets complets
+(sérialisation). Chaque approche a son domaine d'application selon la nature
+et l'usage des données.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 10 : Interfaces graphiques et base de données
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{10}{Interfaces Graphiques et Base de Données -- Swing \& JDBC}
+
+\objectif{Maîtriser la création d'interfaces graphiques avec les composants
+Java Swing (\texttt{JFrame}, \texttt{JLabel}, \texttt{JTextField},
+\texttt{JComboBox}, \texttt{JButton}), et la connexion à une base de données
+relationnelle via JDBC pour effectuer des opérations CRUD (\textit{Create,
+Read, Update, Delete}).}
+
+\section{Contexte et spécifications}
+
+\enonce{Créer une interface graphique permettant d'enregistrer les
+informations des membres d'un club dans une base de données. Les
+informations sont stockées dans une table \texttt{T\_Membre}. En utilisant
+les composants Swing, réaliser le formulaire avec les champs :
+\texttt{IdMembre}, \texttt{Prenom}, \texttt{Nom}, \texttt{Adresse},
+\texttt{Date de Naissance}, \texttt{Lieu de Naissance}, \texttt{Sexe}
+(liste déroulante : M/F) et \texttt{Profession}. Prévoir trois boutons :
+\textbf{Ajouter}, \textbf{Modifier} et \textbf{Quitter}.}
+
+\screenshot{Screenshot 2026-05-TP10-interface.png}{Interface graphique Swing -- Formulaire d'inscription des membres du club}
+
+\observation{La classe \texttt{JFrame} constitue la fenêtre principale de
+l'application. Le gestionnaire de disposition (\textit{layout manager})
+\texttt{GridBagLayout} ou \texttt{BorderLayout} + \texttt{GridLayout}
+permet d'aligner proprement les étiquettes (\texttt{JLabel}) et les
+champs de saisie (\texttt{JTextField}). Le composant \texttt{JComboBox}
+gère la liste déroulante pour le champ \texttt{Sexe}.}
+
+\section{Structure de la table \texttt{T\_Membre}}
+
+\enonce{Concevoir la table SQL \texttt{T\_Membre} correspondant aux
+champs du formulaire, avec \texttt{IdMembre} comme clé primaire, puis
+implémenter la connexion JDBC et les méthodes d'insertion et de
+modification.}
+
+\screenshot{Screenshot 2026-05-TP10-table.png}{Structure SQL de la table \texttt{T\_Membre} et connexion JDBC}
+
+\observation{La connexion JDBC suit le patron classique en quatre étapes :
+(1)~charger le pilote (\texttt{Class.forName(...)}),
+(2)~ouvrir la connexion (\texttt{DriverManager.getConnection(...)}),
+(3)~créer et exécuter une requête (\texttt{PreparedStatement}),
+(4)~fermer les ressources dans un bloc \texttt{finally} ou
+\texttt{try-with-resources}. L'utilisation de \texttt{PreparedStatement}
+au lieu de \texttt{Statement} protège contre les injections SQL.}
+
+\note{La liste déroulante \texttt{JComboBox<String>} est initialisée avec
+les valeurs \texttt{"M"} et \texttt{"F"}. La valeur sélectionnée est
+récupérée via \texttt{getSelectedItem().toString()} lors du clic sur
+\textbf{Ajouter} ou \textbf{Modifier}.}
+
+\section{Implémentation du formulaire Swing}
+
+\screenshot{Screenshot 2026-05-TP10-code1.png}{Classe principale -- Déclaration de la \texttt{JFrame} et des composants Swing}
+\screenshot{Screenshot 2026-05-TP10-code2.png}{Méthode \texttt{actionPerformed} -- Bouton Ajouter et connexion JDBC}
+\screenshot{Screenshot 2026-05-TP10-code3.png}{Bouton Modifier -- Requête UPDATE et bouton Quitter}
+
+\observation{Le bouton \textbf{Ajouter} exécute une requête
+\texttt{INSERT INTO T\_Membre VALUES (?,?,?,?,?,?,?,?)} avec les valeurs
+saisies dans les champs du formulaire. Le bouton \textbf{Modifier} exécute
+une requête \texttt{UPDATE T\_Membre SET ... WHERE IdMembre=?}. Dans les
+deux cas, \texttt{PreparedStatement} est utilisé pour éviter les injections
+SQL et garantir la sécurité des données.}
+
+\erreurFrequente{Oublier de fermer la connexion JDBC après chaque opération
+entraîne des fuites de ressources qui peuvent épuiser le pool de connexions.
+Utiliser \texttt{try-with-resources} avec \texttt{Connection},
+\texttt{PreparedStatement} et \texttt{ResultSet} garantit leur fermeture
+automatique.}
+
+\probleme{Lors des premiers tests, le pilote JDBC n'était pas trouvé
+(\texttt{ClassNotFoundException}). La solution a été d'ajouter le fichier
+\texttt{.jar} du pilote (ex: \texttt{mysql-connector-java.jar}) au
+\textit{classpath} du projet dans l'IDE. Une fois le pilote déclaré via
+\texttt{Class.forName("com.mysql.cj.jdbc.Driver")}, la connexion a
+fonctionné correctement.}
+
+\conclusionTP{Ce TP marque l'aboutissement de la progression POO en
+introduisant deux dimensions essentielles du développement Java professionnel :
+les interfaces graphiques avec Swing et la persistance des données via JDBC.
+La combinaison d'une \texttt{JFrame} bien structurée et d'une couche JDBC
+sécurisée (\texttt{PreparedStatement}) constitue la base de nombreuses
+applications de gestion desktop.}
+
+% ════════════════════════════════════════════════════════════════════════════
+%  TP 11 : Opérations CRUD avancées -- Swing & JDBC
+% ════════════════════════════════════════════════════════════════════════════
+\tpchapter{11}{Opérations CRUD Avancées -- Insertion et Recherche avec Swing \& JDBC}
+
+\objectif{Approfondir l'intégration Swing/JDBC du TP~10 en implémentant deux
+fonctionnalités clés : (1)~l'insertion des données du formulaire dans la table
+\texttt{T\_Membre} via le bouton \textbf{Ajouter}, et (2)~la recherche et
+l'affichage automatique d'un membre existant dans les champs du formulaire via
+le bouton \textbf{Modifier}.}
+
+% ── Question 1 ───────────────────────────────────────────────────────────────
+\section{Question 1 -- Connexion et insertion (bouton \textbf{Ajouter})}
+
+\enonce{Écrire le code Java qui, lors du clic sur le bouton \textbf{Ajouter},
+établit une connexion avec la base de données, puis insère dans la table
+\texttt{T\_Membre} les informations saisies par l'utilisateur dans le
+formulaire Swing.}
+
+\subsection{Logique d'implémentation}
+
+Lors du clic sur le bouton \textbf{Ajouter}, le programme doit :
+
+\begin{enumerate}[leftmargin=1.8cm, itemsep=3pt]
+  \item Récupérer les valeurs saisies dans chaque composant Swing
+        (\texttt{getText()} pour les \texttt{JTextField},
+        \texttt{getSelectedItem()} pour le \texttt{JComboBox}).
+  \item Établir la connexion JDBC via \texttt{DriverManager.getConnection()}.
+  \item Construire un \texttt{PreparedStatement} avec la requête
+        \texttt{INSERT INTO T\_Membre VALUES (?,?,?,?,?,?,?,?)}.
+  \item Lier chaque paramètre \texttt{?} avec \texttt{setString()} ou
+        \texttt{setInt()}.
+  \item Exécuter l'insertion avec \texttt{executeUpdate()}.
+  \item Afficher une confirmation à l'utilisateur et libérer les ressources.
+\end{enumerate}
+
+\subsection{Code Java -- Bouton \textbf{Ajouter}}
+
+\begin{lstlisting}[caption={Gestionnaire du bouton Ajouter -- insertion JDBC}]
+// Dans la methode actionPerformed de l'ActionListener du bouton "Ajouter"
+if (e.getSource() == btnAjouter) {
+    Connection conn = null;
+    PreparedStatement pst = null;
+    try {
+        // 1. Recuperation des valeurs du formulaire
+        String id        = txtIdMembre.getText().trim();
+        String prenom    = txtPrenom.getText().trim();
+        String nom       = txtNom.getText().trim();
+        String adresse   = txtAdresse.getText().trim();
+        String dateNais  = txtDateNaissance.getText().trim();
+        String lieuNais  = txtLieuNaissance.getText().trim();
+        String sexe      = cmbSexe.getSelectedItem().toString();
+        String profession = txtProfession.getText().trim();
+
+        // Validation basique : champs obligatoires
+        if (id.isEmpty() || nom.isEmpty() || prenom.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Les champs IdMembre, Nom et Prenom sont obligatoires.",
+                "Saisie incomplete", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Etablissement de la connexion JDBC
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/clubDB", "root", "");
+
+        // 3. Preparation de la requete d'insertion
+        String sql = "INSERT INTO T_Membre "
+                   + "(IdMembre, Prenom, Nom, Adresse, DateNaissance, "
+                   + " LieuNaissance, Sexe, Profession) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        pst = conn.prepareStatement(sql);
+
+        // 4. Liaison des parametres
+        pst.setString(1, id);
+        pst.setString(2, prenom);
+        pst.setString(3, nom);
+        pst.setString(4, adresse);
+        pst.setString(5, dateNais);
+        pst.setString(6, lieuNais);
+        pst.setString(7, sexe);
+        pst.setString(8, profession);
+
+        // 5. Execution de l'insertion
+        int rows = pst.executeUpdate();
+        if (rows > 0) {
+            JOptionPane.showMessageDialog(this,
+                "Membre ajoute avec succes !",
+                "Succes", JOptionPane.INFORMATION_MESSAGE);
+            viderFormulaire(); // Reinitialiser les champs
+        }
+    } catch (SQLIntegrityConstraintViolationException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Erreur : un membre avec cet IdMembre existe deja.",
+            "Doublon", JOptionPane.ERROR_MESSAGE);
+    } catch (ClassNotFoundException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Pilote JDBC introuvable : " + ex.getMessage(),
+            "Erreur pilote", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Erreur SQL : " + ex.getMessage(),
+            "Erreur base de donnees", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        // 6. Liberation des ressources
+        try { if (pst  != null) pst.close();  } catch (SQLException ex) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ex) {}
+    }
+}
+\end{lstlisting}
+
+\screenshot{Screenshot 2026-05-TP11-ajouter.png}{Résultat -- insertion réussie et message de confirmation}
+
+\observation{L'utilisation d'un \texttt{PreparedStatement} à la place d'un
+\texttt{Statement} ordinaire est indispensable ici : elle protège contre les
+injections SQL (un utilisateur malveillant pourrait sinon saisir du code SQL
+dans un \texttt{JTextField}) et améliore les performances par précompilation
+de la requête côté serveur.}
+
+\note{La méthode \texttt{viderFormulaire()} (à implémenter) efface tous les
+champs après une insertion réussie via \texttt{setText("")}, ce qui prépare le
+formulaire pour une saisie suivante sans que l'utilisateur n'ait à effacer
+manuellement chaque champ.}
+
+\erreurFrequente{Oublier le bloc \texttt{finally} pour fermer
+\texttt{Connection} et \texttt{PreparedStatement} provoque des fuites de
+connexions qui peuvent saturer le nombre maximal de connexions autorisées par
+le SGBD, rendant l'application inutilisable après quelques dizaines d'opérations.}
+
+\probleme{Lors des premiers tests, une
+\texttt{SQLIntegrityConstraintViolationException} était levée sans message
+clair à l'utilisateur. En ajoutant un bloc \texttt{catch} spécifique pour ce
+type d'exception et en affichant un \texttt{JOptionPane} explicatif, le
+comportement est devenu convivial : l'utilisateur est informé qu'il tente
+d'insérer un identifiant déjà existant.}
+
+% ── Question 2 ───────────────────────────────────────────────────────────────
+\section{Question 2 -- Recherche et affichage (bouton \textbf{Modifier})}
+
+\enonce{Écrire le code Java pour le bouton \textbf{Modifier} qui permet de
+rechercher un membre à partir de son identifiant (\texttt{IdMembre}) saisi par
+l'utilisateur, puis d'afficher automatiquement les autres informations de ce
+membre dans les zones de texte correspondantes.}
+
+\subsection{Logique d'implémentation}
+
+Lors du clic sur le bouton \textbf{Modifier}, le programme doit :
+
+\begin{enumerate}[leftmargin=1.8cm, itemsep=3pt]
+  \item Lire l'\texttt{IdMembre} saisi dans \texttt{txtIdMembre}.
+  \item Exécuter une requête \texttt{SELECT * FROM T\_Membre WHERE IdMembre = ?}.
+  \item Si un résultat est trouvé (\texttt{rs.next()} retourne \texttt{true}),
+        remplir chaque composant Swing avec la valeur correspondante du
+        \texttt{ResultSet}.
+  \item Si aucun résultat n'est trouvé, afficher un message d'erreur via
+        \texttt{JOptionPane}.
+  \item Libérer toutes les ressources JDBC dans le bloc \texttt{finally}.
+\end{enumerate}
+
+\subsection{Code Java -- Bouton \textbf{Modifier}}
+
+\begin{lstlisting}[caption={Gestionnaire du bouton Modifier -- recherche et remplissage JDBC}]
+// Dans la methode actionPerformed de l'ActionListener du bouton "Modifier"
+if (e.getSource() == btnModifier) {
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    try {
+        // 1. Lecture de l'identifiant saisi
+        String id = txtIdMembre.getText().trim();
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Veuillez saisir un IdMembre pour effectuer la recherche.",
+                "Champ manquant", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Connexion JDBC
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/clubDB", "root", "");
+
+        // 3. Requete SELECT avec filtre sur IdMembre
+        String sql = "SELECT * FROM T_Membre WHERE IdMembre = ?";
+        pst = conn.prepareStatement(sql);
+        pst.setString(1, id);
+        rs = pst.executeQuery();
+
+        // 4. Remplissage du formulaire ou message d'erreur
+        if (rs.next()) {
+            txtPrenom.setText(rs.getString("Prenom"));
+            txtNom.setText(rs.getString("Nom"));
+            txtAdresse.setText(rs.getString("Adresse"));
+            txtDateNaissance.setText(rs.getString("DateNaissance"));
+            txtLieuNaissance.setText(rs.getString("LieuNaissance"));
+            cmbSexe.setSelectedItem(rs.getString("Sexe"));
+            txtProfession.setText(rs.getString("Profession"));
+
+            JOptionPane.showMessageDialog(this,
+                "Membre trouve. Vous pouvez modifier les informations.",
+                "Membre charge", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Aucun membre trouve avec l'identifiant : " + id,
+                "Membre introuvable", JOptionPane.WARNING_MESSAGE);
+            viderFormulaire();
+        }
+    } catch (ClassNotFoundException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Pilote JDBC introuvable : " + ex.getMessage(),
+            "Erreur pilote", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Erreur SQL : " + ex.getMessage(),
+            "Erreur base de donnees", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        // 5. Liberation des ressources (ordre inverse d'ouverture)
+        try { if (rs   != null) rs.close();   } catch (SQLException ex) {}
+        try { if (pst  != null) pst.close();  } catch (SQLException ex) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ex) {}
+    }
+}
+\end{lstlisting}
+
+\screenshot{Screenshot 2026-05-TP11-modifier.png}{Résultat -- champs du formulaire remplis automatiquement après recherche par IdMembre}
+
+\observation{La séparation des deux actions en deux blocs \texttt{if}
+distincts dans \texttt{actionPerformed} (un pour \texttt{Ajouter}, un pour
+\texttt{Modifier}) est le patron standard des \texttt{ActionListener} Swing
+multi-boutons. Cette approche est simple mais peut être refactorisée avec des
+lambdas ou des \texttt{ActionListener} anonymes distincts pour chaque bouton.}
+
+\note{Une fois les informations chargées depuis la base, l'utilisateur peut
+modifier les champs du formulaire. Pour valider les modifications, il suffira
+d'ajouter une troisième étape : un bouton ou une confirmation déclenchant une
+requête \texttt{UPDATE T\_Membre SET ... WHERE IdMembre = ?} avec les nouvelles
+valeurs -- ce qui constitue une évolution naturelle de ce TP.}
+
+\erreurFrequente{Ne pas fermer le \texttt{ResultSet} avant de fermer le
+\texttt{PreparedStatement} produit parfois des comportements indéfinis selon
+le pilote JDBC. L'ordre correct de fermeture est toujours :
+\texttt{ResultSet} $\to$ \texttt{PreparedStatement} $\to$ \texttt{Connection},
+c'est-à-dire l'inverse de l'ordre d'ouverture.}
+
+\probleme{Lors des tests, \texttt{cmbSexe.setSelectedItem()} ne sélectionnait
+pas la valeur attendue si la chaîne stockée en base contenait une espace ou
+était en minuscules. En appliquant \texttt{.trim().toUpperCase()} sur la valeur
+lue depuis le \texttt{ResultSet} avant de l'affecter au \texttt{JComboBox},
+la correspondance a fonctionné correctement dans tous les cas.}
+
+\conclusionTP{Ce TP complète la boucle CRUD démarrée au TP~10 en ajoutant
+une insertion robuste et une fonctionnalité de recherche dynamique. L'utilisation
+systématique de \texttt{PreparedStatement}, de blocs \texttt{try/catch/finally}
+et de messages \texttt{JOptionPane} produit une application fiable, sécurisée
+et conviviale. Ces deux patterns -- insertion préparée et sélection par clé
+primaire -- sont au cœur de toute application de gestion Java avec JDBC.}
+
+% ────────────────────────────────────────────────────────────────────────────
+\phantomsection
+\addcontentsline{toc}{chapter}{Conclusion Générale}
+\chapter*{Conclusion Générale}
+\thispagestyle{fancy}
+
+Ces dix travaux pratiques ont permis une progression structurée et complète
+à travers les principaux piliers de la \textbf{Programmation Orientée Objet
+en Java}. Chaque TP a enrichi les compétences acquises lors des sessions
+précédentes, formant un parcours pédagogique cohérent allant des bases
+syntaxiques jusqu'au développement d'applications graphiques connectées
+à une base de données.
+
+\vspace{0.6cm}
+
+\begin{mdframed}[linecolor=bleuENSA, linewidth=1.5pt,
+                 backgroundcolor=bleuClair,
+                 innertopmargin=16pt, innerbottommargin=16pt,
+                 innerleftmargin=18pt, innerrightmargin=18pt,
+                 roundcorner=4pt,
+                 topline=true, bottomline=true,
+                 leftline=true, rightline=true]
+\textbf{\color{bleuENSA}Récapitulatif des compétences acquises}
+
+\vspace{8pt}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l X@{}}
+\toprule
+\rowcolor{bleuENSA!12}
+\textbf{TPs} & \textbf{Compétences développées} \\
+\midrule
+TP 1--2  & Syntaxe Java, structures de contrôle, méthodes statiques, classes de base \\
+TP 3--4  & Héritage, surcharge, classes abstraites, polymorphisme, liaison dynamique \\
+TP 5     & Framework Collections, itérateurs, conversion, comparaison de performances \\
+TP 6     & Hiérarchie d'exceptions, exceptions personnalisées, robustesse applicative \\
+TP 7     & Programmation concurrente, synchronisation, communication inter-threads \\
+TP 9     & Flux texte et binaire, sérialisation Java, persistance de données \\
+TP 10    & Interfaces graphiques Swing, connexion JDBC, opérations CRUD \\
+TP 11    & Insertion JDBC sécurisée, recherche par clé primaire, gestion des erreurs \\
+\bottomrule
+\end{tabularx}
+\end{mdframed}
+
+\vspace{0.8cm}
+
+\conclusionTP{L'ensemble de ces travaux pratiques couvre les fondamentaux
+incontournables du développement Java professionnel. La maîtrise de ces
+concepts -- de l'encapsulation et de l'héritage jusqu'à la concurrence,
+la persistance et les interfaces graphiques -- constitue le socle
+indispensable pour aborder des frameworks modernes (Spring, Jakarta EE,
+JavaFX) et des architectures logicielles avancées. Le langage Java, conçu
+autour du principe «~écrire une fois, exécuter partout~», reste l'un des
+langages les plus utilisés dans le monde professionnel.}
+
+\vspace{0.5cm}
+
+\begin{observationBox}
+\textbf{\color{violetInfo}\faEye~~Perspectives d'approfondissement :}
+Ces TPs ouvrent la voie à des thèmes avancés : les \textit{design patterns}
+(Singleton, Factory, Observer), la programmation fonctionnelle avec les
+\textit{lambda} et \textit{Streams} (Java 8+), le passage à JavaFX pour
+des interfaces modernes, la gestion de la mémoire et du
+\textit{garbage collection}, et les frameworks de test JUnit pour
+garantir la qualité du code de façon automatisée.
+\end{observationBox}
+
+\vspace{0.8cm}
+\begin{flushright}
+  \begin{mdframed}[linecolor=grisBorder, linewidth=0.5pt,
+    backgroundcolor=grisFond,
+    innertopmargin=10pt, innerbottommargin=10pt,
+    innerleftmargin=16pt, innerrightmargin=16pt,
+    roundcorner=3pt]
+    {\color{grisTexte}
+      \textbf{\large LABSER Yahya}\\[3pt]
+      \textit{IID1~~·~~ENSA Khouribga~~·~~2024/2025}
+    }
+  \end{mdframed}
+\end{flushright}
+
+\end{document}

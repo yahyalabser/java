@@ -1,0 +1,25 @@
+FACTURE #2024-001
+Date: 15/01/2024
+Client: Ahmed Benali
+Adresse: 23 Rue Hassan II, Casablanca
+
+--------------------------------------------------
+DESIGNATION          QTE    PRIX HT    MONTANT HT
+--------------------------------------------------
+Laptop Dell          1      8500.00    8500.00
+Souris sans fil      2      150.00     300.00
+Clavier mecanique    1      320.00     320.00
+Ecran 24 pouces      1      2200.00    2200.00
+Casque audio         3      450.00     1350.00
+--------------------------------------------------
+
+Sous-total HT  :    12670.00 MAD
+TVA (20%)      :     2534.00 MAD
+--------------------------------------------------
+TOTAL TTC      :    15204.00 MAD
+--------------------------------------------------
+
+Modalite de paiement : Virement bancaire
+Delai de paiement    : 30 jours
+
+Merci pour votre confiance !

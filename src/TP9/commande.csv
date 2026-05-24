@@ -1,0 +1,11 @@
+id_commande,nom_client,produit,quantite,prix_unitaire
+1001,Ahmed Benali,Laptop,1,8500.00
+1002,Fatima Zahra,Souris,2,150.00
+1003,Youssef Idrissi,Clavier,1,320.00
+1004,Meryem Tazi,Ecran,1,2200.00
+1005,Omar Chraibi,Casque,3,450.00
+1006,Zineb Mansouri,Webcam,2,380.00
+1007,Karim Benjelloun,Disque SSD,1,750.00
+1008,Nadia Alaoui,Imprimante,1,1800.00
+1009,Hassan Oukili,Cable HDMI,4,85.00
+1010,Samira Fennich,Hub USB,2,220.00

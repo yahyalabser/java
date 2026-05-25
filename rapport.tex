@@ -614,9 +614,44 @@ métier spécifiées.}
 \texttt{valeurLocativeEstimee}. Fournir un constructeur (3 paramètres),
 une méthode \texttt{affiche()}, et une méthode
 \texttt{calculeValeurLocative()} fixant la valeur à $0{,}5\,\%$ du prix
-d'achat par m².}
+d'achat.}
 
 \screenshot{Screenshot 2026-05-03 161643.png}{Classe \texttt{BienImmobilier} -- attributs, constructeur et \texttt{calculeValeurLocative}}
+
+\begin{lstlisting}
+package TP3;
+
+public class BienImmobilier {
+    String adresse;
+    float surface;
+    float prixAcha;
+    float valeurEst;
+
+    public BienImmobilier(){
+        adresse = "Default";
+        surface = 0;
+        prixAcha = 0;
+        valeurEst = 0;
+    }
+
+    public BienImmobilier(String adress, float surface, float prixAcha){
+        this.adresse = adress;
+        this.surface = surface;
+        this.prixAcha = prixAcha;
+    }
+
+    public void affiche(){
+        System.out.println("Adress: "+ adresse);
+        System.out.println("Surface: " + surface);
+        System.out.println("Prix d'achat: " + prixAcha);
+        System.out.println("La valeur locative estimee: " + valeurEst);
+    }
+
+    public void calculeValeurLocative(){
+        valeurEst = (float)0.005 * prixAcha;
+    }
+}
+\end{lstlisting}
 
 \observation{La classe \texttt{BienImmobilier} définit le comportement commun à
 tous les biens. La méthode \texttt{calculeValeurLocative()} est conçue pour être
@@ -627,7 +662,7 @@ polymorphisme.}
 
 \enonce{Classe héritant de \texttt{BienImmobilier} avec \texttt{nbPieces},
 \texttt{surfaceJardin} et \texttt{piscine}. Redéfinir
-\texttt{calculeValeurLocative()} : base $= 0{,}5\,\% \times$ prix/m²,
+\texttt{calculeValeurLocative()} : base $= 0{,}5\,\% \times$ prix d'achat,
 $+10\,\%$ si jardin $> 50$ m², $+20\,\%$ si piscine.}
 
 \screenshot{Screenshot 2026-05-03 161714.png}{Classe \texttt{Maison} héritant de \texttt{BienImmobilier} et redéfinissant \texttt{calculeValeurLocative}}
@@ -705,6 +740,64 @@ Pollution $= \text{consommationBase} \times \text{cylindree} \times 0{,}02$.}
 
 \screenshot{Screenshot 2026-05-03 162227.png}{Classe \texttt{VehiculeThermique} -- implémentation des méthodes et \texttt{calculerPollution}}
 
+\begin{lstlisting}
+package TP4;
+
+public class VehiculeThermique extends Vehicule{
+    private double niveauCarburant;
+    private String typeCarburant;
+    private int cylindree;
+
+    public VehiculeThermique(){
+        super();
+        niveauCarburant = 0;
+        typeCarburant = "Default";
+        cylindree = 0;
+    }
+
+    public VehiculeThermique(String immatriculation, int capacite,
+            double consommationBase, double niveauCarburant,
+            String typeCarburant, int cylindree){
+        super(immatriculation, capacite, consommationBase);
+        this.niveauCarburant = niveauCarburant;
+        this.typeCarburant = typeCarburant;
+        this.cylindree = cylindree;
+    }
+
+    public double getNiveauCarburant(){return niveauCarburant;}
+    public String getTypeCarburant(){return typeCarburant;}
+    public int getCylindree(){return cylindree;}
+
+    public void setNiveauCarburant(double niveauCarburant){
+        this.niveauCarburant = niveauCarburant;}
+    public void setTypeCarburant(String typeCarburant){
+        this.typeCarburant = typeCarburant;}
+    public void setCylindree(int cylindree){
+        this.cylindree = cylindree;}
+
+    public double calculerAutonomie(){
+        return niveauCarburant * 100 / getConsommationBase();
+    }
+
+    public double calculerEfficacite(){
+        return (getCapacite() * 100)
+            / (getConsommationBase() * cylindree / 1000);
+    }
+
+    public double calculerPollution(){
+        return getConsommationBase() * cylindree * 0.02;
+    }
+
+    @Override
+    public String toString(){
+        return ("immatriculation: " + getImmatriculation() +
+            "\nautonomie: " + calculerAutonomie() +
+            "\nefficacite: " + calculerEfficacite() +
+            "\npollution: " + calculerPollution());
+    }
+}
+\end{lstlisting}
+
 \observation{La méthode \texttt{calculerPollution()} est propre à
 \texttt{VehiculeThermique} et n'appartient pas au contrat abstrait. Cela montre
 qu'une sous-classe peut ajouter ses propres comportements spécialisés
@@ -772,6 +865,54 @@ getters/setters, \texttt{toString()} formaté, \texttt{equals()} basé sur
 \texttt{id}.}
 
 \screenshot{Screenshot 2026-05-03 162849.png}
+
+\begin{lstlisting}
+package TP5;
+
+public class Employe implements Comparable<Employe>{
+    private int id;
+    private String nom;
+    private String departement;
+    private double salaire;
+
+    public Employe(int id, String nom, String departement,
+                   double salaire) {
+        this.id = id;
+        this.nom = nom;
+        this.departement = departement;
+        this.salaire = salaire;
+    }
+
+    public int getId() {return id;}
+    public String getNom() {return nom;}
+    public String getDepartement() {return departement;}
+    public double getSalaire() {return salaire;}
+
+    public void setId (int id) {this.id = id;}
+    public void setNom (String nom) {this.nom = nom;}
+    public void setDepartement (String departement) {
+        this.departement = departement;}
+    public void setSalaire (double salaire) {
+        this.salaire = salaire;}
+
+    @Override
+    public String toString() {
+        return "Id : " + id + "; Nom: " + nom
+            + "; Departement: " + departement
+            + "; Salaire: " + salaire;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return id == ((Employe) obj).getId();
+    }
+
+    @Override
+    public int compareTo(Employe autre){
+        return Integer.compare(this.id, autre.id);
+    }
+}
+\end{lstlisting}
 
 \observation{L'implémentation de \texttt{Comparable<Employe>} est obligatoire
 pour que \texttt{TreeSet} puisse trier automatiquement les employés. Sans elle,
@@ -1072,9 +1213,68 @@ de type \texttt{double}). Méthode \texttt{ecrireMultiples(nomFichier, n)} :
 coefficient + double résultat). Méthode \texttt{lireEtAfficher(nomFichier)} :
 déduire la valeur de \texttt{base} et le nombre de multiples stockés.}
 
-\screenshot{Screenshot 2026-05-17 151501.png}
+\begin{lstlisting}
+package TP9;
 
-\screenshot{Screenshot 2026-05-17 151447.png}
+import java.io.*;
+
+public class MultiplesReel {
+    private double base;
+
+    public MultiplesReel(double d) {
+        base = d;
+    }
+
+    public void ecrireMultiples(String nomFichier, int n){
+        try (DataOutputStream ou = new DataOutputStream(
+                new FileOutputStream(nomFichier))) {
+            for (int i = 1; i <= n ; i++) {
+                double result = i * base;
+                ou.writeInt(i);
+                ou.writeDouble(result);
+            }
+        }
+        catch (IOException e) {
+            System.err.println("Erreur ecriture : "
+                + e.getMessage());
+        }
+    }
+
+    public void lireEtAfficher(String nomFichier){
+        try (DataInputStream in = new DataInputStream(
+                new FileInputStream(nomFichier))) {
+            int cout = 0;
+            double baseD = 0;
+            int coeff = in.readInt();
+            double result = in.readDouble();
+            baseD = result / coeff;
+            cout++;
+
+            while(true) {
+                try{
+                    in.readInt();
+                    in.readDouble();
+                    cout++;
+                } catch (EOFException e) {break;}
+            }
+            System.out.println("La valeur du reel base : "
+                + baseD);
+            System.out.println("Le nombre de multiples stockes : "
+                + cout);
+        }
+        catch (IOException e) {
+            System.err.println("Erreur lecture : "
+                + e.getMessage());
+        }
+    }
+
+    public static void main(String[] arg) {
+        MultiplesReel m = new MultiplesReel(2.2);
+        m.ecrireMultiples("./src/TP9/multiples.dat", 10);
+        m.lireEtAfficher("./src/TP9/multiples.dat");
+    }
+}
+\end{lstlisting}
 
 \observation{Les fichiers binaires écrits avec \texttt{DataOutputStream}
 stockent les données dans un format compact non lisible par un éditeur de

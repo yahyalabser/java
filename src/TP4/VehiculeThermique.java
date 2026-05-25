@@ -12,6 +12,14 @@ public class VehiculeThermique extends Vehicule{
         cylindree = 0;
     }
 
+    public VehiculeThermique(String immatriculation, int capacite, double consommationBase,
+                             double niveauCarburant, String typeCarburant, int cylindree){
+        super(immatriculation, capacite, consommationBase);
+        this.niveauCarburant = niveauCarburant;
+        this.typeCarburant = typeCarburant;
+        this.cylindree = cylindree;
+    }
+
     public double getNiveauCarburant(){return niveauCarburant;}
     public String getTypeCarburant(){return typeCarburant;}
     public int getCylindree(){return cylindree;}

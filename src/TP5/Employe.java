@@ -17,16 +17,16 @@ public class Employe implements Comparable<Employe>{
     public int getId() {return id;}
     public String getNom() {return nom;}
     public String getDepartement() {return departement;}
-    public double getSlaire() {return salaire;}
+    public double getSalaire() {return salaire;}
 
     public void setId (int id) {this.id = id;}
     public void setNom (String nom) {this.nom = nom;}
-    public void setepartement (String departement) {this.departement = departement;}
-    public void setSlaire (double salaire) {this.salaire = salaire;}
+    public void setDepartement (String departement) {this.departement = departement;}
+    public void setSalaire (double salaire) {this.salaire = salaire;}
 
     @Override
     public String toString() {
-        return "Id : " + id + "; Nom: " + nom + "Departement: " + departement + "Salaire: " + salaire;
+        return "Id : " + id + "; Nom: " + nom + "; Departement: " + departement + "; Salaire: " + salaire;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class GestionEmployes {
         Hashtable<Integer, String> mapEmployes = new Hashtable<>();
         ArrayList<String> listeNomsEmployes = new ArrayList<>();
         for (int i = 0; i < tableauEmployes.length; i++) {
-            if (tableauEmployes[i].getSlaire() > 5000)
+            if (tableauEmployes[i].getSalaire() > 5000)
                 listeNomsEmployes.add(tableauEmployes[i].getNom());
             else
                 mapEmployes.put(tableauEmployes[i].getId(), tableauEmployes[i].getNom());

@@ -17,11 +17,11 @@ public class MultiplesReel {
             for (int i = 1; i <= n ; i++)
             {
                 double result = i * base;
-                ou.write(i);
+                ou.writeInt(i);
                 ou.writeDouble(result);
             }
         }
-        catch (IOException e) {}
+        catch (IOException e) { System.err.println("Erreur écriture : " + e.getMessage()); }
     }
 
     public void lireEtAfficher(String nomFichier){
@@ -30,7 +30,7 @@ public class MultiplesReel {
             int cout = 0;
             double baseD = 0;
             int coeff = in.readInt();
-            double result = in.readFloat();
+            double result = in.readDouble();
             baseD = result / coeff;
             cout++;
 

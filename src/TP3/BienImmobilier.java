@@ -7,7 +7,7 @@ public class BienImmobilier {
     float valeurEst;
 
     public BienImmobilier(){
-        adresse = "Deafault";
+        adresse = "Default";
         surface = 0;
         prixAcha = 0;
         valeurEst = 0;

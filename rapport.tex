@@ -118,7 +118,6 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\small\color{bleuAccent}\textsc{Langage de programmation Java}}
-\fancyfoot[L]{\small\color{grisTexte}\textit{Rapport de TPs -- 2025/2026}}
 \fancyfoot[C]{\small\color{bleuENSA}\thepage}
 \renewcommand{\headrulewidth}{0.6pt}
 \renewcommand{\headrule}{%
@@ -392,7 +391,7 @@
       4  & Classes abstraites et polymorphisme           & \texttt{abstract}, \texttt{@Override} \\
       5  & Collections Java -- Gestion des employés     & Set, Map, List, Iterator \\
       6  & Exceptions personnalisées -- Banque           & \texttt{try/catch}, \texttt{throw} \\
-      7  & Threads et synchronisation -- DAB            & \texttt{synchronized}, \texttt{wait} \\
+      7  & Threads et synchronisation                   & \texttt{synchronized}, \texttt{wait} \\
       9  & Gestion des fichiers et flux                 & IO, Sérialisation \\
       10 & Interfaces graphiques et base de données     & Swing, JDBC \\
       11 & Opérations CRUD avancées -- Swing \& JDBC   & INSERT, SELECT, UPDATE, JDBC \\
@@ -432,9 +431,7 @@ sans arrondir. Un appel avec \texttt{"3.7"} lève une
 \texttt{NumberFormatException}.}
 
 \note{La condition d'arrêt \texttt{while(!line.equals("0"))} suppose une saisie
-exactement égale à \texttt{"0"}. Une amélioration serait d'utiliser
-\texttt{Double.parseDouble(line) == 0} pour accepter \texttt{"0.0"},
-\texttt{"0.00"}, etc.}
+exactement égale à \texttt{"0"}}
 
 % ── Exercice 2 ──────────────────────────────────────────────────────────────
 \section{Exercice 2 -- Carrés avec \texttt{continue}}
@@ -513,6 +510,11 @@ instances P1 et P2 dans un programme principal.}
 
 \screenshot{Screenshot 2026-05-03 160756.png}
 
+
+
+
+
+
 \observation{La classe \texttt{Produit} illustre le principe
 d'\textbf{encapsulation} : les méthodes \texttt{augmenter} et \texttt{diminuer}
 contrôlent les modifications selon des règles métier précises -- augmentation
@@ -576,10 +578,13 @@ utilitaires ne dépendant d'aucun état d'objet.}
 Dans \texttt{main}, saisir $n$ étudiants, calculer la moyenne via
 \texttt{calculerMoyenne()}, et comparer deux étudiants avec \texttt{equals()}.}
 
-\screenshot{Screenshot 2026-05-03 161348.png}{Classe \texttt{Etudiant} -- définition, \texttt{toString} et \texttt{equals}}
+\screenshot{Screenshot 2026-05-03 161348.png}
+
 \screenshot{Screenshot 2026-05-03 161439.png}
 
-\screenshot{hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh}
+\screenshot{Screenshot 2026-05-29 172912.png}
+
+\screenshot{Screenshot 2026-05-29 172928.png}
 
 \observation{La redéfinition de \texttt{toString()} permet l'affichage direct
 via \texttt{System.out.println(objet)}.}
@@ -616,42 +621,7 @@ une méthode \texttt{affiche()}, et une méthode
 \texttt{calculeValeurLocative()} fixant la valeur à $0{,}5\,\%$ du prix
 d'achat.}
 
-\screenshot{Screenshot 2026-05-03 161643.png}{Classe \texttt{BienImmobilier} -- attributs, constructeur et \texttt{calculeValeurLocative}}
-
-\begin{lstlisting}
-package TP3;
-
-public class BienImmobilier {
-    String adresse;
-    float surface;
-    float prixAcha;
-    float valeurEst;
-
-    public BienImmobilier(){
-        adresse = "Default";
-        surface = 0;
-        prixAcha = 0;
-        valeurEst = 0;
-    }
-
-    public BienImmobilier(String adress, float surface, float prixAcha){
-        this.adresse = adress;
-        this.surface = surface;
-        this.prixAcha = prixAcha;
-    }
-
-    public void affiche(){
-        System.out.println("Adress: "+ adresse);
-        System.out.println("Surface: " + surface);
-        System.out.println("Prix d'achat: " + prixAcha);
-        System.out.println("La valeur locative estimee: " + valeurEst);
-    }
-
-    public void calculeValeurLocative(){
-        valeurEst = (float)0.005 * prixAcha;
-    }
-}
-\end{lstlisting}
+\screenshot{Screenshot 2026-05-25 220523.png}
 
 \observation{La classe \texttt{BienImmobilier} définit le comportement commun à
 tous les biens. La méthode \texttt{calculeValeurLocative()} est conçue pour être
@@ -738,65 +708,7 @@ Formules : Autonomie $= \frac{\text{niveauCarburant} \times 100}{\text{consommat
 Efficacité $= \frac{\text{capacité} \times 100}{\text{consommationBase} \times \text{cylindree}/1000}$,
 Pollution $= \text{consommationBase} \times \text{cylindree} \times 0{,}02$.}
 
-\screenshot{Screenshot 2026-05-03 162227.png}{Classe \texttt{VehiculeThermique} -- implémentation des méthodes et \texttt{calculerPollution}}
-
-\begin{lstlisting}
-package TP4;
-
-public class VehiculeThermique extends Vehicule{
-    private double niveauCarburant;
-    private String typeCarburant;
-    private int cylindree;
-
-    public VehiculeThermique(){
-        super();
-        niveauCarburant = 0;
-        typeCarburant = "Default";
-        cylindree = 0;
-    }
-
-    public VehiculeThermique(String immatriculation, int capacite,
-            double consommationBase, double niveauCarburant,
-            String typeCarburant, int cylindree){
-        super(immatriculation, capacite, consommationBase);
-        this.niveauCarburant = niveauCarburant;
-        this.typeCarburant = typeCarburant;
-        this.cylindree = cylindree;
-    }
-
-    public double getNiveauCarburant(){return niveauCarburant;}
-    public String getTypeCarburant(){return typeCarburant;}
-    public int getCylindree(){return cylindree;}
-
-    public void setNiveauCarburant(double niveauCarburant){
-        this.niveauCarburant = niveauCarburant;}
-    public void setTypeCarburant(String typeCarburant){
-        this.typeCarburant = typeCarburant;}
-    public void setCylindree(int cylindree){
-        this.cylindree = cylindree;}
-
-    public double calculerAutonomie(){
-        return niveauCarburant * 100 / getConsommationBase();
-    }
-
-    public double calculerEfficacite(){
-        return (getCapacite() * 100)
-            / (getConsommationBase() * cylindree / 1000);
-    }
-
-    public double calculerPollution(){
-        return getConsommationBase() * cylindree * 0.02;
-    }
-
-    @Override
-    public String toString(){
-        return ("immatriculation: " + getImmatriculation() +
-            "\nautonomie: " + calculerAutonomie() +
-            "\nefficacite: " + calculerEfficacite() +
-            "\npollution: " + calculerPollution());
-    }
-}
-\end{lstlisting}
+\screenshot{Screenshot 2026-05-03 162227.png}
 
 \observation{La méthode \texttt{calculerPollution()} est propre à
 \texttt{VehiculeThermique} et n'appartient pas au contrat abstrait. Cela montre
@@ -864,55 +776,7 @@ getters/setters, \texttt{toString()} formaté, \texttt{equals()} basé sur
 \texttt{id}, et implémenter \texttt{Comparable<Employe>} pour trier par
 \texttt{id}.}
 
-\screenshot{Screenshot 2026-05-03 162849.png}
-
-\begin{lstlisting}
-package TP5;
-
-public class Employe implements Comparable<Employe>{
-    private int id;
-    private String nom;
-    private String departement;
-    private double salaire;
-
-    public Employe(int id, String nom, String departement,
-                   double salaire) {
-        this.id = id;
-        this.nom = nom;
-        this.departement = departement;
-        this.salaire = salaire;
-    }
-
-    public int getId() {return id;}
-    public String getNom() {return nom;}
-    public String getDepartement() {return departement;}
-    public double getSalaire() {return salaire;}
-
-    public void setId (int id) {this.id = id;}
-    public void setNom (String nom) {this.nom = nom;}
-    public void setDepartement (String departement) {
-        this.departement = departement;}
-    public void setSalaire (double salaire) {
-        this.salaire = salaire;}
-
-    @Override
-    public String toString() {
-        return "Id : " + id + "; Nom: " + nom
-            + "; Departement: " + departement
-            + "; Salaire: " + salaire;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return id == ((Employe) obj).getId();
-    }
-
-    @Override
-    public int compareTo(Employe autre){
-        return Integer.compare(this.id, autre.id);
-    }
-}
-\end{lstlisting}
+\screenshot{Screenshot 2026-05-25 220144.png}
 
 \observation{L'implémentation de \texttt{Comparable<Employe>} est obligatoire
 pour que \texttt{TreeSet} puisse trier automatiquement les employés. Sans elle,
@@ -1213,68 +1077,7 @@ de type \texttt{double}). Méthode \texttt{ecrireMultiples(nomFichier, n)} :
 coefficient + double résultat). Méthode \texttt{lireEtAfficher(nomFichier)} :
 déduire la valeur de \texttt{base} et le nombre de multiples stockés.}
 
-\begin{lstlisting}
-package TP9;
-
-import java.io.*;
-
-public class MultiplesReel {
-    private double base;
-
-    public MultiplesReel(double d) {
-        base = d;
-    }
-
-    public void ecrireMultiples(String nomFichier, int n){
-        try (DataOutputStream ou = new DataOutputStream(
-                new FileOutputStream(nomFichier))) {
-            for (int i = 1; i <= n ; i++) {
-                double result = i * base;
-                ou.writeInt(i);
-                ou.writeDouble(result);
-            }
-        }
-        catch (IOException e) {
-            System.err.println("Erreur ecriture : "
-                + e.getMessage());
-        }
-    }
-
-    public void lireEtAfficher(String nomFichier){
-        try (DataInputStream in = new DataInputStream(
-                new FileInputStream(nomFichier))) {
-            int cout = 0;
-            double baseD = 0;
-            int coeff = in.readInt();
-            double result = in.readDouble();
-            baseD = result / coeff;
-            cout++;
-
-            while(true) {
-                try{
-                    in.readInt();
-                    in.readDouble();
-                    cout++;
-                } catch (EOFException e) {break;}
-            }
-            System.out.println("La valeur du reel base : "
-                + baseD);
-            System.out.println("Le nombre de multiples stockes : "
-                + cout);
-        }
-        catch (IOException e) {
-            System.err.println("Erreur lecture : "
-                + e.getMessage());
-        }
-    }
-
-    public static void main(String[] arg) {
-        MultiplesReel m = new MultiplesReel(2.2);
-        m.ecrireMultiples("./src/TP9/multiples.dat", 10);
-        m.lireEtAfficher("./src/TP9/multiples.dat");
-    }
-}
-\end{lstlisting}
+\screenshot{Screenshot 2026-05-25 215814.png}
 
 \observation{Les fichiers binaires écrits avec \texttt{DataOutputStream}
 stockent les données dans un format compact non lisible par un éditeur de
@@ -1303,22 +1106,10 @@ de chaînes.}
 \screenshot{Screenshot 2026-05-17 151850.png}{Classe \texttt{Client} -- implémentation de \texttt{Serializable}}
 \screenshot{Screenshot 2026-05-17 151905.png}{Programme de sérialisation -- écriture dans \texttt{clients.ser} et relecture des noms complets}
 
-\observation{La constante \texttt{serialVersionUID = 1L} est une bonne pratique
-explicite : elle contrôle la compatibilité entre versions de la classe. Sans UID
-déclaré, Java en génère un automatiquement qui peut changer à chaque
-compilation, rendant les anciens fichiers \texttt{.ser} illisibles.}
-
 \note{La sérialisation Java est pratique mais présente des limites : elle est
 spécifique à Java, couplée à la structure interne de la classe, et peut poser
 des problèmes de sécurité. Pour les échanges inter-systèmes, JSON ou XML sont
 préférables.}
-
-\probleme{Lors des tests de désérialisation, une
-\texttt{InvalidClassException} était levée car la classe \texttt{Client} avait
-été modifiée entre l'écriture et la lecture du fichier. Java avait généré un
-UID différent. L'ajout explicite de
-\texttt{private static final long serialVersionUID = 1L} a stabilisé la
-compatibilité.}
 
 \conclusionTP{Ce TP a couvert les trois niveaux d'accès aux fichiers en Java :
 texte structuré (\texttt{BufferedReader/PrintWriter}), données binaires typées
@@ -1606,17 +1397,5 @@ garantir la qualité du code de façon automatisée.
 \end{observationBox}
 
 \vspace{0.8cm}
-\begin{flushright}
-  \begin{mdframed}[linecolor=grisBorder, linewidth=0.5pt,
-    backgroundcolor=grisFond,
-    innertopmargin=10pt, innerbottommargin=10pt,
-    innerleftmargin=16pt, innerrightmargin=16pt,
-    roundcorner=3pt]
-    {\color{grisTexte}
-      \textbf{\large LABSER Yahya}\\[3pt]
-      \textit{IID1~~·~~ENSA Khouribga~~·~~2025/2026}
-    }
-  \end{mdframed}
-\end{flushright}
 
 \end{document}
